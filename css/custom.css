@@ -1,0 +1,8 @@
+/* 强制设置网站全局背景 */
+body {
+    background-image: url(https:picsum.photos/id/870/536/354?grayscale&blur=2) !important;
+    background-size: cover !important;
+    background-attachment: fixed !important;
+    background-position: center center !important;
+    background-repeat: no-repeat !important;
+}
