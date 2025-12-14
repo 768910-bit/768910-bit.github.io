@@ -1,0 +1,115 @@
+/* 专门针对标题区域透明 */
+
+/* === 1. 强力移除标题所有背景 === */
+#page-header,
+.page-header,
+header#page-header,
+div#page-header,
+.layout #page-header,
+main #page-header,
+#page-header.post-bg,
+#page-header.post-bg:hover,
+#page-header .post-bg,
+#page-header > div,
+#page-header > section,
+#page-header > article {
+    /* 移除背景 */
+    background: transparent !important;
+    background-color: transparent !important;
+    background-image: none !important;
+    
+    /* 移除背景效果 */
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    filter: none !important;
+    
+    /* 移除边框阴影 */
+    border: none !important;
+    box-shadow: none !important;
+    outline: none !important;
+    
+    /* 确保文字可见 */
+    color: white !important;
+    text-shadow: 
+        2px 2px 8px rgba(0, 0, 0, 0.9),
+        0 0 20px rgba(0, 0, 0, 0.7) !important;
+}
+
+/* === 2. 移除标题内部的背景元素 === */
+#page-header .post-bg,
+#page-header .page-cover,
+#page-header .cover,
+#page-header .background,
+#page-header .bg {
+    background: transparent !important;
+    background-color: transparent !important;
+    background-image: none !important;
+}
+
+/* === 3. 移除标题的伪元素背景 === */
+#page-header::before,
+#page-header::after,
+#page-header .post-bg::before,
+#page-header .post-bg::after {
+    content: none !important;
+    display: none !important;
+    background: transparent !important;
+    background-color: transparent !important;
+    background-image: none !important;
+}
+
+/* === 4. 使用all: initial强力重置 === */
+#page-header {
+    all: initial !important;
+    display: block !important;
+    position: relative !important;
+    width: 100% !important;
+    
+    /* 透明背景 */
+    background: transparent !important;
+    background-color: transparent !important;
+    background-image: none !important;
+    
+    /* 文字样式 */
+    color: white !important;
+    text-align: center !important;
+    padding: 60px 20px !important;
+    margin: 40px 0 !important;
+    
+    /* 文字阴影确保可见 */
+    text-shadow: 
+        3px 3px 10px rgba(0, 0, 0, 1),
+        0 0 30px rgba(0, 0, 0, 0.8) !important;
+}
+
+/* === 5. 标题内部元素 === */
+#page-header h1,
+#page-header .page-title,
+#page-header .title {
+    all: initial !important;
+    display: block !important;
+    font-size: 3em !important;
+    font-weight: bold !important;
+    color: white !important;
+    text-shadow: 
+        4px 4px 12px rgba(0, 0, 0, 1),
+        0 0 40px rgba(0, 0, 0, 0.9) !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+/* === 6. 确保没有遮罩层 === */
+#page-header .mask,
+#page-header .overlay,
+#page-header .filter {
+    display: none !important;
+    opacity: 0 !important;
+    background: transparent !important;
+}
+
+/* === 7. 实时测试样式（临时） === */
+/*
+#page-header {
+    border: 5px solid red !important;  // 测试用，可以看到标题区域范围
+}
+*/

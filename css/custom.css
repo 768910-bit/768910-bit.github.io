@@ -1,8 +1,83 @@
-/* 强制设置网站全局背景 */
+/* 强力透明 - 覆盖所有可能的背景 */
+
+/* === 1. 强制所有元素透明 === */
+* {
+    background-color: transparent !important;
+    background-image: none !important;
+}
+
+/* === 2. 恢复必要的背景 === */
 body {
-    background-image: url(https:picsum.photos/id/870/536/354?grayscale&blur=2) !important;
-    background-size: cover !important;
+    background: url('https://fastly.picsum.photos/id/870/536/354.jpg?blur=2&grayscale&hmac=A5T7lnprlMMlQ18KQcVMi3b7Bwa1Qq5YJFp8LSudZ84') fixed center center/cover !important;
     background-attachment: fixed !important;
-    background-position: center center !important;
-    background-repeat: no-repeat !important;
+    background-size: cover !important;
+    color: white !important;
+    text-shadow: 2px 2px 4px #000 !important;
+}
+
+/* === 3. 强制特定元素透明 === */
+#page-header,
+.page-header,
+header#page-header,
+.layout #page-header {
+    all: unset !important;
+    display: block !important;
+    background: transparent !important;
+    color: white !important;
+    text-shadow: 3px 3px 8px #000 !important;
+    padding: 40px 20px !important;
+    margin: 30px 0 !important;
+}
+
+#content-inner,
+.content-inner,
+main #content-inner {
+    all: unset !important;
+    display: block !important;
+    background: transparent !important;
+    color: white !important;
+    text-shadow: 2px 2px 6px #000 !important;
+    padding: 20px !important;
+}
+
+.recent-post-item,
+.post-bg,
+article.recent-post-item {
+    all: unset !important;
+    display: block !important;
+    background: transparent !important;
+    color: white !important;
+    text-shadow: 1px 1px 4px #000 !important;
+    margin-bottom: 30px !important;
+    padding: 15px !important;
+    border: 1px solid rgba(255,255,255,0.2) !important;
+    border-radius: 10px !important;
+}
+
+/* === 4. 保留导航栏和侧边栏效果 === */
+#nav {
+    background: rgba(0,0,0,0.8) !important;
+    backdrop-filter: blur(15px) !important;
+}
+
+#aside-content .card-widget {
+    background: rgba(0,0,0,0.7) !important;
+    backdrop-filter: blur(15px) !important;
+}
+
+/* === 5. 头像效果 === */
+#aside-content .avatar-img {
+    background: white !important;
+    border: 4px solid rgba(255,255,255,0.9) !important;
+}
+
+/* === 6. 移除所有伪元素的背景 === */
+#page-header::before,
+#page-header::after,
+#content-inner::before,
+#content-inner::after,
+.recent-post-item::before,
+.recent-post-item::after {
+    content: none !important;
+    background: transparent !important;
 }
