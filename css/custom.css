@@ -8,31 +8,50 @@
 
 /* === 2. 恢复必要的背景 === */
 body {
-    background: url('https://fastly.picsum.photos/id/870/536/354.jpg?blur=2&grayscale&hmac=A5T7lnprlMMlQ18KQcVMi3b7Bwa1Qq5YJFp8LSudZ84') fixed center center/cover !important;
+    background: url('https://s41.ax1x.com/2025/12/15/pZQn4eO.jpg') fixed center center/cover !important;
     background-attachment: fixed !important;
     background-size: cover !important;
     color: white !important;
     text-shadow: 2px 2px 4px #000 !important;
 }
 
-/* === 3. 强制特定元素透明 === */
+/* === 3. 标题区域 - 优化版 === */
 #page-header,
 .page-header,
 header#page-header,
 .layout #page-header {
-    all: unset !important;
     display: block !important;
     background: transparent !important;
     color: white !important;
-    text-shadow: 3px 3px 8px #000 !important;
-    padding: 40px 20px !important;
+    text-shadow: 3px 3px 10px rgba(0, 0, 0, 0.9) !important;
+    padding: 50px 20px !important;
     margin: 30px 0 !important;
+    text-align: center !important;
+    position: relative !important;
 }
 
+/* 主标题 - 纯白色 */
+#page-header h1,
+#page-header .page-title,
+.page-title {
+    color: #ffffff !important;
+    font-size: 3.5em !important;
+    font-weight: 900 !important;
+    letter-spacing: 2px !important;
+    margin: 0 !important;
+    padding: 20px 40px !important;
+    background: rgba(0, 0, 0, 0.6) !important;
+    border-radius: 15px !important;
+    border: 2px solid rgba(255, 255, 255, 0.3) !important;
+    display: inline-block !important;
+    backdrop-filter: blur(10px) !important;
+    text-shadow: 3px 3px 12px rgba(0, 0, 0, 1) !important;
+}
+
+/* === 4. 内容区域 === */
 #content-inner,
 .content-inner,
 main #content-inner {
-    all: unset !important;
     display: block !important;
     background: transparent !important;
     color: white !important;
@@ -43,35 +62,61 @@ main #content-inner {
 .recent-post-item,
 .post-bg,
 article.recent-post-item {
-    all: unset !important;
     display: block !important;
-    background: transparent !important;
+    background: rgba(0, 0, 0, 0.4) !important;
     color: white !important;
     text-shadow: 1px 1px 4px #000 !important;
     margin-bottom: 30px !important;
-    padding: 15px !important;
-    border: 1px solid rgba(255,255,255,0.2) !important;
-    border-radius: 10px !important;
+    padding: 20px !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    border-radius: 12px !important;
+    backdrop-filter: blur(8px) !important;
 }
 
-/* === 4. 保留导航栏和侧边栏效果 === */
+/* === 5. 文章标题 - 纯白色 === */
+.recent-post-item .post-title {
+    color: #ffffff !important;
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.9) !important;
+    background: rgba(0, 0, 0, 0.5) !important;
+    padding: 15px 25px !important;
+    border-radius: 10px !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    font-size: 2em !important;
+    font-weight: 800 !important;
+    margin-bottom: 15px !important;
+}
+
+/* === 6. 导航栏和侧边栏 === */
 #nav {
-    background: rgba(0,0,0,0.8) !important;
+    background: rgba(0, 0, 0, 0.8) !important;
     backdrop-filter: blur(15px) !important;
+}
+
+#nav .menus_item a,
+#nav .site-page {
+    color: #ffffff !important;
+    text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.8) !important;
+    font-weight: 600 !important;
+    padding: 8px 20px !important;
+}
+
+#nav .menus_item a:hover {
+    color: #ffcccc !important;
+    transform: translateY(-2px) !important;
 }
 
 #aside-content .card-widget {
-    background: rgba(0,0,0,0.7) !important;
+    background: rgba(0, 0, 0, 0.7) !important;
     backdrop-filter: blur(15px) !important;
 }
 
-/* === 5. 头像效果 === */
+/* === 7. 头像效果 === */
 #aside-content .avatar-img {
     background: white !important;
-    border: 4px solid rgba(255,255,255,0.9) !important;
+    border: 4px solid rgba(255, 255, 255, 0.9) !important;
 }
 
-/* === 6. 移除所有伪元素的背景 === */
+/* === 8. 移除所有伪元素的背景 === */
 #page-header::before,
 #page-header::after,
 #content-inner::before,
@@ -80,4 +125,77 @@ article.recent-post-item {
 .recent-post-item::after {
     content: none !important;
     background: transparent !important;
+}
+
+/* === 9. 其他页面标题 === */
+/* 单篇文章页标题 */
+.post-title,
+h1.post-title {
+    color: #ffffff !important;
+    text-shadow: 3px 3px 10px rgba(0, 0, 0, 0.9) !important;
+    background: rgba(0, 0, 0, 0.6) !important;
+    padding: 20px 40px !important;
+    border-radius: 15px !important;
+    border: 2px solid rgba(255, 255, 255, 0.3) !important;
+    font-size: 2.8em !important;
+}
+
+/* 文章内小标题 */
+.article-content h2,
+.article-content h3 {
+    color: #ffffff !important;
+    text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.8) !important;
+    background: rgba(0, 0, 0, 0.4) !important;
+    padding: 10px 20px !important;
+    border-radius: 8px !important;
+    margin: 15px 0 10px 0 !important;
+}
+
+/* 侧边栏标题 */
+.card-widget .card-title {
+    color: #ffffff !important;
+    text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.8) !important;
+}
+
+/* 页脚文字 */
+#footer-wrap {
+    color: rgba(255, 255, 255, 0.9) !important;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7) !important;
+}
+
+/* ==================== */
+/* 通用文章标题修复 */
+/* ==================== */
+
+/* 方案1：针对所有可能是文章标题的元素 */
+.recent-post-item h2,
+.recent-post-item h1,
+.recent-post-item h2 a,
+.recent-post-item h1 a,
+.post-title-link,
+.article-title a {
+    color: #ffffff !important;
+    text-shadow: 3px 3px 10px rgba(0, 0, 0, 0.9) !important;
+    background: rgba(0, 0, 0, 0.6) !important;
+    padding: 12px 20px !important;
+    border-radius: 10px !important;
+    display: inline-block !important;
+    font-size: 1.8em !important;
+    font-weight: 700 !important;
+}
+
+/* 方案3：给整个文章卡片加更深的背景 */
+.recent-post-item {
+    background: rgba(0, 0, 0, 0.6) !important;
+    backdrop-filter: blur(12px) !important;
+    border: 2px solid rgba(255, 255, 255, 0.2) !important;
+    border-radius: 15px !important;
+    padding: 25px !important;
+}
+
+/* 方案4：使用属性选择器，匹配所有包含"title"的class */
+[class*="title"],
+[id*="title"] {
+    color: #ffffff !important;
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.9) !important;
 }
