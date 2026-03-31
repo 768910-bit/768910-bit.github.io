@@ -342,7 +342,7 @@
   <entry>
     <title>Typora入门使用教程</title>
     <url>/2026/03/31/Typora%E5%85%A5%E9%97%A8%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/</url>
-    <content><![CDATA[<h1 id="typora的基本使用方法"><a href="#typora的基本使用方法" class="headerlink" title="typora的基本使用方法"></a>typora的基本使用方法</h1><h2 id="1-标题级数"><a href="#1-标题级数" class="headerlink" title="1.标题级数"></a>1.标题级数</h2><p>几级标题就是Ctrl+数字，六级为上限</p>
+    <content><![CDATA[<h2 id="1-标题级数"><a href="#1-标题级数" class="headerlink" title="1.标题级数"></a>1.标题级数</h2><p>几级标题就是Ctrl+数字，六级为上限</p>
 <h1 id="我"><a href="#我" class="headerlink" title="我"></a>我</h1><h2 id="是"><a href="#是" class="headerlink" title="是"></a>是</h2><h3 id="一"><a href="#一" class="headerlink" title="一"></a>一</h3><h4 id="个"><a href="#个" class="headerlink" title="个"></a>个</h4><h5 id="萌"><a href="#萌" class="headerlink" title="萌"></a>萌</h5><h6 id="新"><a href="#新" class="headerlink" title="新"></a>新</h6><p>或者是#加空格加想写的标题内容</p>
 <h2 id="2-引用"><a href="#2-引用" class="headerlink" title="2.引用"></a>2.引用</h2><p>快捷键&gt;+空格</p>
 <blockquote>
