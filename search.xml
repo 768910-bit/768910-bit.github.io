@@ -1,11 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title></title>
-    <url>/2026/03/31/Typora%E5%85%A5%E9%97%A8/</url>
-    <content><![CDATA[]]></content>
-  </entry>
-  <entry>
     <title>why TLE</title>
     <url>/2025/12/19/why-TLE/</url>
     <content><![CDATA[<h1 id="if-答案-测试点TLE"><a href="#if-答案-测试点TLE" class="headerlink" title="if(答案 &amp;&amp; 测试点TLE)"></a>if(答案 &amp;&amp; 测试点TLE)</h1><h3 id="问题，洛谷P1036-选数"><a href="#问题，洛谷P1036-选数" class="headerlink" title="问题，洛谷P1036 选数"></a>问题，洛谷P1036 选数</h3><p>已知n个给出的整数 ，以及 1 个整数 k（k&lt;n）。从 n 个整数中任选 k 个整数相加，可分别得到一系列的和。例如当 n&#x3D;4，k&#x3D;3，4 个整数分别为 3,7,12,19 时，可得全部的组合与它们的和为：</p>
@@ -343,5 +338,99 @@
       <tags>
         <tag>搜索</tag>
       </tags>
+  </entry>
+  <entry>
+    <title>Typora入门使用教程</title>
+    <url>/2026/03/31/Typora%E5%85%A5%E9%97%A8%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/</url>
+    <content><![CDATA[<h1 id="typora的基本使用方法"><a href="#typora的基本使用方法" class="headerlink" title="typora的基本使用方法"></a>typora的基本使用方法</h1><h2 id="1-标题级数"><a href="#1-标题级数" class="headerlink" title="1.标题级数"></a>1.标题级数</h2><p>几级标题就是Ctrl+数字，六级为上限</p>
+<h1 id="我"><a href="#我" class="headerlink" title="我"></a>我</h1><h2 id="是"><a href="#是" class="headerlink" title="是"></a>是</h2><h3 id="一"><a href="#一" class="headerlink" title="一"></a>一</h3><h4 id="个"><a href="#个" class="headerlink" title="个"></a>个</h4><h5 id="萌"><a href="#萌" class="headerlink" title="萌"></a>萌</h5><h6 id="新"><a href="#新" class="headerlink" title="新"></a>新</h6><p>或者是#加空格加想写的标题内容</p>
+<h2 id="2-引用"><a href="#2-引用" class="headerlink" title="2.引用"></a>2.引用</h2><p>快捷键&gt;+空格</p>
+<blockquote>
+<p>To be or not to be…</p>
+<p>哎我咋还没退出。</p>
+</blockquote>
+<p>哦，退出引用是shift+tab</p>
+<h2 id="3-无序列表"><a href="#3-无序列表" class="headerlink" title="3.无序列表"></a>3.无序列表</h2><p>快捷键ctrl+shift+]，想要子列表就按tab,回到上一层是shift+tab</p>
+<p>想要退出猛点回车</p>
+<ul>
+<li>一个健康大学生的要素<ul>
+<li>适当翘课</li>
+<li>勤点外卖</li>
+<li>不跑校园跑</li>
+<li>期末周抱佛脚<ul>
+<li>以上是反义词（doge</li>
+</ul>
+</li>
+<li>一段健康的情感生活</li>
+</ul>
+</li>
+</ul>
+<p>ctrl+shift+[</p>
+<ol>
+<li>学习吉他四部曲<ol>
+<li>买吉他</li>
+<li>买网课</li>
+<li>练习</li>
+<li>转转二手直出</li>
+</ol>
+</li>
+</ol>
+<h2 id="4-链接"><a href="#4-链接" class="headerlink" title="4.链接"></a>4.链接</h2><p>例子：[竹官明的个人博客](<a href="https://768910-bit.github.io/">竹见 - 愿我们都能在自己的季节里，生长为一片竹林</a>)</p>
+<p>快捷键：[内容]+(链接)</p>
+<h2 id="5-图片"><a href="#5-图片" class="headerlink" title="5.图片"></a>5.图片</h2><p>插入图片：直接拖动或者复制粘贴到指定位置</p>
+<p>或者ctrl+shift+i</p>
+<p><img src="C:\Users\管彤\Pictures\头像\avatar.jpg" alt="avatar"></p>
+<h2 id="6-highlight高亮"><a href="#6-highlight高亮" class="headerlink" title="6.highlight高亮"></a>6.highlight高亮</h2><p>快捷键：两个&#x3D;加内容加两个&#x3D;</p>
+<p>&#x3D;&#x3D;为什么要学的还有这么多&#x3D;&#x3D;</p>
+<p>哦，记得打开高亮设置。</p>
+<h2 id="7-划重点"><a href="#7-划重点" class="headerlink" title="7.划重点"></a>7.划重点</h2><p>1.加粗：ctrl+B</p>
+<p><strong>I’m a man of my word.</strong></p>
+<p>2.代码：ctrl+shift+&#96;</p>
+<p><code>printf(&quot;hello,NENU!&quot;);</code></p>
+<p>3.删除线：alt+shift+5</p>
+<p>我明天早八<del>一定翘</del> 肯定去</p>
+<p>4.斜体：ctrl+i</p>
+<p><em>生命不息，运动不止</em></p>
+<p>5.下划线：ctrl+u</p>
+<p><u>这句话没有什么意思喵</u></p>
+<p>6.表格：ctrl+t</p>
+<table>
+<thead>
+<tr>
+<th>我勒个豆我懒得填你们知道效果就好啊</th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<p>7.代码块：&#96;&#96;&#96;加回车</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#include&lt;iostream&gt;</span><br><span class="line">using namespace std;</span><br><span class="line">int main()&#123;</span><br><span class="line">   cout&lt;&lt;&quot;i love NENU&quot;&lt;&lt;endl;</span><br><span class="line">   return 0;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+
+
+]]></content>
   </entry>
 </search>
