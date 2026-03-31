@@ -1,6 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title></title>
+    <url>/2026/03/31/Typora%E5%85%A5%E9%97%A8/</url>
+    <content><![CDATA[]]></content>
+  </entry>
+  <entry>
+    <title>why TLE</title>
+    <url>/2025/12/19/why-TLE/</url>
+    <content><![CDATA[<h1 id="if-答案-测试点TLE"><a href="#if-答案-测试点TLE" class="headerlink" title="if(答案 &amp;&amp; 测试点TLE)"></a>if(答案 &amp;&amp; 测试点TLE)</h1><h3 id="问题，洛谷P1036-选数"><a href="#问题，洛谷P1036-选数" class="headerlink" title="问题，洛谷P1036 选数"></a>问题，洛谷P1036 选数</h3><p>已知n个给出的整数 ，以及 1 个整数 k（k&lt;n）。从 n 个整数中任选 k 个整数相加，可分别得到一系列的和。例如当 n&#x3D;4，k&#x3D;3，4 个整数分别为 3,7,12,19 时，可得全部的组合与它们的和为：</p>
+<p>3+7+12&#x3D;22</p>
+<p>3+7+19&#x3D;29</p>
+<p>7+12+19&#x3D;38</p>
+<p>3+12+19&#x3D;34</p>
+<p>现在，要求你计算出和为素数共有多少种。</p>
+<p>例如上例，只有一种的和为素数：3+7+19&#x3D;29。</p>
+<p><strong>my原答案</strong></p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;vector&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="type">long</span> <span class="type">long</span> ll;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">su</span><span class="params">(ll n)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(n&lt;=<span class="number">1</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">if</span>(n==<span class="number">2</span>) <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">if</span>(n%<span class="number">2</span>==<span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span>(ll i=<span class="number">3</span>;i*i&lt;=n;i+=<span class="number">2</span>)&#123;</span><br><span class="line">        <span class="keyword">if</span>(n%i==<span class="number">0</span>)&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//DFS递归 </span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">dfs</span><span class="params">(<span class="type">int</span> start,<span class="type">int</span> count,ll sum,<span class="type">int</span> k,<span class="type">int</span> n,vector&lt;ll&gt;&amp; nums,<span class="type">int</span>&amp; prime_count)</span></span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span>(count==k)&#123;</span><br><span class="line">        <span class="keyword">if</span>(<span class="built_in">su</span>(sum))&#123;</span><br><span class="line">            prime_count++;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125; </span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=start;i&lt;n;i++)&#123;</span><br><span class="line">        <span class="built_in">dfs</span>(i<span class="number">+1</span>,count<span class="number">+1</span>,sum+nums[i],k,n,nums,prime_count);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    ios::<span class="built_in">sync_with_stdio</span>(<span class="literal">false</span>);</span><br><span class="line">    cin.<span class="built_in">tie</span>(<span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">    <span class="type">int</span> n,k;</span><br><span class="line">    cin&gt;&gt;n&gt;&gt;k;</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    <span class="function">vector&lt;ll&gt; <span class="title">nums</span><span class="params">(n)</span></span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;n;i++)&#123;</span><br><span class="line">        cin&gt;&gt;nums[i];</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="type">int</span> prime_count=<span class="number">0</span>;</span><br><span class="line">    <span class="built_in">dfs</span>(<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,k,n,nums,prime_count);</span><br><span class="line">    </span><br><span class="line">    cout&lt;&lt;prime_count&lt;&lt;endl;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;	</span><br><span class="line">&#125; </span><br></pre></td></tr></table></figure>
+
+<p>改进版本</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;vector&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="type">long</span> <span class="type">long</span> ll;</span><br><span class="line"></span><br><span class="line"><span class="comment">//一般写法</span></span><br><span class="line"><span class="function"><span class="type">bool</span> <span class="title">prime</span><span class="params">(ll n)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(n&lt;=<span class="number">1</span>) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    <span class="keyword">if</span>(n==<span class="number">2</span>) <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    <span class="keyword">if</span>(n%<span class="number">2</span>==<span class="number">0</span>) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    <span class="keyword">for</span>(ll i=<span class="number">3</span>;i*i&lt;=n;i+=<span class="number">2</span>)&#123;</span><br><span class="line">        <span class="keyword">if</span>(n%i==<span class="number">0</span>) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//快速判断篇</span></span><br><span class="line"><span class="function"><span class="type">bool</span> <span class="title">fast_prime</span><span class="params">(ll n)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(n&lt;=<span class="number">3</span>) <span class="keyword">return</span> n&gt;<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">if</span>(n%<span class="number">2</span>==<span class="number">0</span> || n%<span class="number">3</span>==<span class="number">0</span>) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//只检查6k+(-)1的数字</span></span><br><span class="line">    <span class="comment">//因为列数字你就会发现在2和3的因数被排除完后只剩下符合这个式子的数字,刚好是相近的两个相差2，相远的最近是6</span></span><br><span class="line">    <span class="keyword">for</span>(ll i=<span class="number">5</span>;i*i&lt;=n;i+=<span class="number">6</span>)&#123;</span><br><span class="line">        <span class="keyword">if</span>(n%i==<span class="number">0</span> || n%(i<span class="number">+2</span>)==<span class="number">0</span>) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// dfs递归</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">dfs</span><span class="params">(<span class="type">int</span> start,<span class="type">int</span> cnt,ll sum,<span class="type">int</span> k,<span class="type">int</span> n,vector&lt;ll&gt;&amp; nums,<span class="type">int</span>&amp; prime_cnt)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(count==k)&#123;</span><br><span class="line">        <span class="keyword">if</span>(<span class="built_in">fast_prime</span>(sum))&#123;</span><br><span class="line">            prime_cnt++;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//优化：如果剩余的数字不够凑齐k个，直接结束</span></span><br><span class="line">    <span class="keyword">if</span>(n-start&lt;k-cnt) <span class="keyword">return</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=start;i&lt;n;i++)&#123;</span><br><span class="line">        <span class="built_in">dfs</span>(i<span class="number">+1</span>,cnt<span class="number">+1</span>,sum+nums[i],k,n,nums,prime_cnt);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//后面一样......</span></span><br></pre></td></tr></table></figure>
+<p>好的果然过了。</p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><ol>
+<li>算法复杂度分析的重要性：最初只考虑了 n&#x3D;20 较小，但没考虑数字范围可能很大（5×10⁶）。不仅要看输入数量，还要看数值范围</li>
+<li>剪枝思想的威力</li>
+</ol>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> (n - start &lt; k - count) <span class="keyword">return</span>;</span><br></pre></td></tr></table></figure>
+<p>在搜索算法中，尽早排除无效路径</p>
+<ol start="3">
+<li>素数判断优化技巧（纯菜</li>
+</ol>
+<hr>
+<p>龟速前进中</p>
+]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>竹官明的碎碎念</title>
+    <url>/2025/12/08/%E7%AB%B9%E5%AE%98%E6%98%8E%E7%9A%84%E7%A2%8E%E7%A2%8E%E5%BF%B5/</url>
+    <content><![CDATA[<h1 id="我的第一篇博客"><a href="#我的第一篇博客" class="headerlink" title="我的第一篇博客"></a>我的第一篇博客</h1><h2 id="关于我的网名"><a href="#关于我的网名" class="headerlink" title="关于我的网名"></a>关于我的网名</h2><p>因为我的姓氏“管”拆开是“竹官”，再加上“明”这个本应在我名字中出现却最终缺席的辈分，于是便有了“<strong>竹官明</strong>”这个网名。如今它也成为这个博客的名字。</p>
+<h2 id="成立网站的契机和初衷"><a href="#成立网站的契机和初衷" class="headerlink" title="成立网站的契机和初衷"></a>成立网站的契机和初衷</h2><h3 id="契机"><a href="#契机" class="headerlink" title="契机"></a>契机</h3><p>作为一个开局没有基础装备的在新手村乱晃的萌新，每次了解到一些学姐学长的光辉过往，总给人一种“忆往昔，峥嵘岁月稠”之感，随之而来的也有想要与他们并肩的渴望与满溢的迷茫。一位予我“<strong>性如白玉烧犹冷</strong>”之感的学姐给我的感觉更甚，作为亦师亦友的关系，我受益颇多。当她轻描淡写地提到“可以拥有一个自己的网站”时，这个念头便如竹笋遇雨——悄然破土，迅速生长。于是，几乎没有犹豫，我开始了这场看似突然、实则早已埋下伏笔的实践。</p>
+<h3 id="初衷"><a href="#初衷" class="headerlink" title="初衷"></a>初衷</h3><p>竹子的几乎是<strong>永恒的生命力和不张扬的品性</strong>，是我一直向往的境界。它的生长过程也在我初次听闻之初给我带来很大的震撼：先是在幼年的竹笋时期发展延伸自己的地下茎，默默扎根，看似缓慢甚至停滞；待到根系四通八达、积蓄足够养分后，便能在短短数十天内拔地而起，高耸入云。这像极了人的成长：漫长的积累与沉淀，往往不为人所见；真正的突破，却可能在某一刻突然到来。我想用这个博客，记录下那些“<strong>看不见的扎根</strong>”与“<strong>看得见的生长</strong>”。</p>
+<p>当然，这个网站也会有一些偏轻松性质的小小文字，就像竹林间的微风、叶隙漏下的光斑，或雨后笋尖挂着的水珠——不必沉重，不必宏大，只为记录那些值得记录的时刻。这些碎片并不成体系，却真实地构成了生活的经纬。竹林中除了挺拔的竹杆，也该有低矮的蕨类、散落的竹叶、偶尔停驻的鸟鸣——<strong>这个博客，也想留下这些“轻而真”的片段</strong>。欢迎你，偶尔也来竹下坐坐，吹吹风，听听叶响。<strong>这里不用总是“向上生长”，也可以“向外呼吸”</strong>。</p>
+<h2 id="最后想说的"><a href="#最后想说的" class="headerlink" title="最后想说的"></a>最后想说的</h2><p>如竹般虚心成长，有节有度，常青不败。竹子是空心的，因而能纳风、能听雨、能共鸣。这个博客，我也想让它成为这样一个空间：<strong>虚心、开放、持续生长</strong>。</p>
+<p>谨以此名，与此站，纪念所有默默扎根的时光。</p>
+<p><strong>欢迎你，来到竹官明的世界。<br>愿我们都能在自己的季节里，生长成一片竹林</strong>。</p>
+]]></content>
+      <categories>
+        <category>随笔</category>
+      </categories>
+  </entry>
+  <entry>
     <title>动态规划</title>
     <url>/2025/12/21/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/</url>
     <content><![CDATA[<h1 id="动态规划（Dynamic-Programming）"><a href="#动态规划（Dynamic-Programming）" class="headerlink" title="动态规划（Dynamic Programming）"></a>动态规划（Dynamic Programming）</h1><p><strong>什么是动态规划？</strong></p>
@@ -43,50 +95,57 @@
       </tags>
   </entry>
   <entry>
-    <title>why TLE</title>
-    <url>/2025/12/19/why-TLE/</url>
-    <content><![CDATA[<h1 id="if-答案-测试点TLE"><a href="#if-答案-测试点TLE" class="headerlink" title="if(答案 &amp;&amp; 测试点TLE)"></a>if(答案 &amp;&amp; 测试点TLE)</h1><h3 id="问题，洛谷P1036-选数"><a href="#问题，洛谷P1036-选数" class="headerlink" title="问题，洛谷P1036 选数"></a>问题，洛谷P1036 选数</h3><p>已知n个给出的整数 ，以及 1 个整数 k（k&lt;n）。从 n 个整数中任选 k 个整数相加，可分别得到一系列的和。例如当 n&#x3D;4，k&#x3D;3，4 个整数分别为 3,7,12,19 时，可得全部的组合与它们的和为：</p>
-<p>3+7+12&#x3D;22</p>
-<p>3+7+19&#x3D;29</p>
-<p>7+12+19&#x3D;38</p>
-<p>3+12+19&#x3D;34</p>
-<p>现在，要求你计算出和为素数共有多少种。</p>
-<p>例如上例，只有一种的和为素数：3+7+19&#x3D;29。</p>
-<p><strong>my原答案</strong></p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;vector&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="type">long</span> <span class="type">long</span> ll;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">su</span><span class="params">(ll n)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(n&lt;=<span class="number">1</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">if</span>(n==<span class="number">2</span>) <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">if</span>(n%<span class="number">2</span>==<span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span>(ll i=<span class="number">3</span>;i*i&lt;=n;i+=<span class="number">2</span>)&#123;</span><br><span class="line">        <span class="keyword">if</span>(n%i==<span class="number">0</span>)&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//DFS递归 </span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">dfs</span><span class="params">(<span class="type">int</span> start,<span class="type">int</span> count,ll sum,<span class="type">int</span> k,<span class="type">int</span> n,vector&lt;ll&gt;&amp; nums,<span class="type">int</span>&amp; prime_count)</span></span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span>(count==k)&#123;</span><br><span class="line">        <span class="keyword">if</span>(<span class="built_in">su</span>(sum))&#123;</span><br><span class="line">            prime_count++;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125; </span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=start;i&lt;n;i++)&#123;</span><br><span class="line">        <span class="built_in">dfs</span>(i<span class="number">+1</span>,count<span class="number">+1</span>,sum+nums[i],k,n,nums,prime_count);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    ios::<span class="built_in">sync_with_stdio</span>(<span class="literal">false</span>);</span><br><span class="line">    cin.<span class="built_in">tie</span>(<span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">    <span class="type">int</span> n,k;</span><br><span class="line">    cin&gt;&gt;n&gt;&gt;k;</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    <span class="function">vector&lt;ll&gt; <span class="title">nums</span><span class="params">(n)</span></span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;n;i++)&#123;</span><br><span class="line">        cin&gt;&gt;nums[i];</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="type">int</span> prime_count=<span class="number">0</span>;</span><br><span class="line">    <span class="built_in">dfs</span>(<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,k,n,nums,prime_count);</span><br><span class="line">    </span><br><span class="line">    cout&lt;&lt;prime_count&lt;&lt;endl;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;	</span><br><span class="line">&#125; </span><br></pre></td></tr></table></figure>
+    <title>贪心</title>
+    <url>/2025/12/21/%E8%B4%AA%E5%BF%83/</url>
+    <content><![CDATA[<h1 id="贪心-Greedy-Algorithm"><a href="#贪心-Greedy-Algorithm" class="headerlink" title="贪心(Greedy Algorithm)"></a>贪心(Greedy Algorithm)</h1><p>这个带有些许贬义的名字可以直观看出算法的,因为想要最多的所以目光短浅，每一步选择都采取当下选择最优解，从而导致全局最优的算法策略</p>
+<p><strong>核心思想</strong></p>
+<ol>
+<li>局部最优从而导致全局最优</li>
+<li>不会回溯：一旦做出选择就不再改变或者回退</li>
+<li>短视性</li>
+</ol>
+<p><strong>应用</strong></p>
+<ol>
+<li>活动选择（安排最多但是不冲突的活动</li>
+<li>霍夫曼编码（数据压缩</li>
+<li>最小生成树</li>
+<li>最短路径</li>
+<li>硬币找零</li>
+<li>分数背包问题</li>
+</ol>
+<p>（让我慢慢遇见这些问题吧。。。</p>
+<p>在看见贪心算法时大家应该会有一种稍稍怀疑但是喜悦的感觉，因为如此省心就可以解决问题，实则不然，<strong>在使用贪心算法前，一定要严格证明这个问题是具有贪心性质的！！！</strong></p>
+<h2 id="1-合并果子"><a href="#1-合并果子" class="headerlink" title="1.合并果子"></a>1.<a href="https://www.luogu.com.cn/problem/P1090">合并果子</a></h2><p>题目：在一个果园里，多多已经将所有的果子打了下来，而且按果子的不同种类分成了不同的堆。多多决定把所有的果子合成一堆。</p>
+<p>每一次合并,多多可以把两堆果子合并到一起，消耗的体力等于两堆果子的重量之和。可以看出，所有的果子经过 n−1 次合并之后，就只剩下一堆了。多多在合并果子时总共消耗的体力等于每次合并所耗体力之和。</p>
+<p>因为还要花大力气把这些果子搬回家，所以多多在合并果子时要尽可能地节省体力。假定每个果子重量都为 1，并且已知果子的种类 数和每种果子的数目，你的任务是设计出合并的次序方案，使多多耗费的体力最少，并输出这个最小的体力耗费值。</p>
+<p>例如有 3 种果子，数目依次为 1，2，9。可以先将 1、2 堆合并，新堆数目为 3，耗费体力为 3 。接着，将新堆与原先的第三堆合并，又得到新的堆，数目为 12，耗费体力为 12。所以多多总共耗费体力 &#x3D;3+12&#x3D;15。可以证明 15 为最小的体力耗费值。</p>
+<p><strong>解读</strong><br>这是一个经典的合并果子问题。优先队列（最小堆）解决</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;queue&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="type">int</span> n;</span><br><span class="line">    cin&gt;&gt;n;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//最小堆</span></span><br><span class="line">    priority_queue&lt;<span class="type">int</span>,vector&lt;<span class="type">int</span>&gt;,greater&lt;<span class="type">int</span>&gt;&gt; q;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;n;i++)&#123;</span><br><span class="line">        <span class="type">int</span> w;</span><br><span class="line">        cin&gt;&gt;w;</span><br><span class="line">        q.<span class="built_in">push</span>(w);</span><br><span class="line">        <span class="comment">//最小的会在顶部</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="type">long</span> <span class="type">long</span> ans=<span class="number">0</span>;</span><br><span class="line">    <span class="comment">//至少需要两个元素才会合并</span></span><br><span class="line">    <span class="keyword">while</span>(q.<span class="built_in">size</span>()&gt;<span class="number">1</span>)&#123;</span><br><span class="line">        <span class="type">int</span> a=q.<span class="built_in">top</span>();q.<span class="built_in">pop</span>();</span><br><span class="line">        <span class="type">int</span> b=q.<span class="built_in">top</span>();q.<span class="built_in">pop</span>();</span><br><span class="line"></span><br><span class="line">        <span class="type">int</span> s=a+b;</span><br><span class="line">        ans+=s;</span><br><span class="line">        q.<span class="built_in">push</span>(s);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    cout&lt;&lt;ans&lt;&lt;endl;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>改进版本</p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;vector&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="type">long</span> <span class="type">long</span> ll;</span><br><span class="line"></span><br><span class="line"><span class="comment">//一般写法</span></span><br><span class="line"><span class="function"><span class="type">bool</span> <span class="title">prime</span><span class="params">(ll n)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(n&lt;=<span class="number">1</span>) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    <span class="keyword">if</span>(n==<span class="number">2</span>) <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    <span class="keyword">if</span>(n%<span class="number">2</span>==<span class="number">0</span>) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    <span class="keyword">for</span>(ll i=<span class="number">3</span>;i*i&lt;=n;i+=<span class="number">2</span>)&#123;</span><br><span class="line">        <span class="keyword">if</span>(n%i==<span class="number">0</span>) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//快速判断篇</span></span><br><span class="line"><span class="function"><span class="type">bool</span> <span class="title">fast_prime</span><span class="params">(ll n)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(n&lt;=<span class="number">3</span>) <span class="keyword">return</span> n&gt;<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">if</span>(n%<span class="number">2</span>==<span class="number">0</span> || n%<span class="number">3</span>==<span class="number">0</span>) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//只检查6k+(-)1的数字</span></span><br><span class="line">    <span class="comment">//因为列数字你就会发现在2和3的因数被排除完后只剩下符合这个式子的数字,刚好是相近的两个相差2，相远的最近是6</span></span><br><span class="line">    <span class="keyword">for</span>(ll i=<span class="number">5</span>;i*i&lt;=n;i+=<span class="number">6</span>)&#123;</span><br><span class="line">        <span class="keyword">if</span>(n%i==<span class="number">0</span> || n%(i<span class="number">+2</span>)==<span class="number">0</span>) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// dfs递归</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">dfs</span><span class="params">(<span class="type">int</span> start,<span class="type">int</span> cnt,ll sum,<span class="type">int</span> k,<span class="type">int</span> n,vector&lt;ll&gt;&amp; nums,<span class="type">int</span>&amp; prime_cnt)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(count==k)&#123;</span><br><span class="line">        <span class="keyword">if</span>(<span class="built_in">fast_prime</span>(sum))&#123;</span><br><span class="line">            prime_cnt++;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//优化：如果剩余的数字不够凑齐k个，直接结束</span></span><br><span class="line">    <span class="keyword">if</span>(n-start&lt;k-cnt) <span class="keyword">return</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=start;i&lt;n;i++)&#123;</span><br><span class="line">        <span class="built_in">dfs</span>(i<span class="number">+1</span>,cnt<span class="number">+1</span>,sum+nums[i],k,n,nums,prime_cnt);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//后面一样......</span></span><br></pre></td></tr></table></figure>
-<p>好的果然过了。</p>
-<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><ol>
-<li>算法复杂度分析的重要性：最初只考虑了 n&#x3D;20 较小，但没考虑数字范围可能很大（5×10⁶）。不仅要看输入数量，还要看数值范围</li>
-<li>剪枝思想的威力</li>
+<p>Q:为啥这种算法就能精力消耗最小呢?</p>
+<p>ans:合并次数是固定的：n堆果子需要n-1次合并</p>
+<p>每个果子的重量在总代价中被计算的次数等于它在树中的深度</p>
+<p>要最小化总代价，应该让重的果子尽量少被合并（放在浅层），轻的果子可以多被合并（放在深层）。</p>
+<p>豁然开朗</p>
+<h2 id="2-彻底怒了"><a href="#2-彻底怒了" class="headerlink" title="2.彻底怒了"></a>2.<a href="https://www.luogu.com.cn/problem/P14113">彻底怒了</a></h2><p>贪心问题总是判断出过后要写出合理的代码实现，但是却往往卡在这一步。分析归类此题需要用何种方法解决其实是第一步也是最重要的一步，但这并不意味着万事大吉</p>
+<h3 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h3><p>金将军有两个长度为 n 的字符串 s,t，他认为一个字符串的愤怒值为其 <code>CDNL</code> 子串的个数。</p>
+<p>现在，他想在 s 中选出一个长度至多为 m的子串 s’，在 t 中选出一个长度至多为 k 的子串 t’，使 s’,t’ 按顺序拼接后的字符串的愤怒值最大，你需要帮他求出这个值。</p>
+<p>子串为原字符串中连续的一段字符组成的字符串。</p>
+<h3 id="碎碎念"><a href="#碎碎念" class="headerlink" title="碎碎念"></a>碎碎念</h3><p>笔者卡住的原因是跨界情况比较复杂，且内部匹配数的快速计算需要滑动窗口技巧，不是简单贪心能一次得到。<br>这个问题其实是一个受限最值子串选取+拼接模式匹配的优化问题，需要分情况仔细讨论并预处理，一想到会有不同的拼接情况，so nerve-racking</p>
+<h3 id="三种情况"><a href="#三种情况" class="headerlink" title="三种情况"></a>三种情况</h3><p>如果列举的话</p>
+<ol>
+<li>只出现在前一个字符串里且都为整个的连续子串，另一个字符串贡献为零</li>
+<li>互换过来</li>
+<li>都有贡献而且两者拼接部分不整，共同在拼接处形成一个<code>CDNL</code></li>
 </ol>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> (n - start &lt; k - count) <span class="keyword">return</span>;</span><br></pre></td></tr></table></figure>
-<p>在搜索算法中，尽早排除无效路径</p>
-<ol start="3">
-<li>素数判断优化技巧（纯菜</li>
-</ol>
-<hr>
-<p>龟速前进中</p>
+<p>期末周结束我会回来的。。。</p>
 ]]></content>
       <categories>
         <category>算法</category>
       </categories>
-  </entry>
-  <entry>
-    <title>夜调VSCode未果作</title>
-    <url>/2025/12/18/%E5%A4%9C%E8%B0%83VSCode%E6%9C%AA%E6%9E%9C%E4%BD%9C/</url>
-    <content><![CDATA[<h1 id="《调VSCode未果夜作》"><a href="#《调VSCode未果夜作》" class="headerlink" title="《调VSCode未果夜作》"></a>《调VSCode未果夜作》</h1><p>独坐寒宵对冷屏，千行代码似迷城。<br>终端不现如星隐，调试频来若鬼萦。</p>
-<p>三更未解编译误，五鼓难求运行声。<br>忽忆故人调试法，重装系统是终程。</p>
-<h3 id="PS："><a href="#PS：" class="headerlink" title="PS："></a>PS：</h3><p>末句戏言耳，莫真格盘。然调试之苦，编程者皆尝。夜虽深，志勿堕，明晨再战必可克。</p>
-<hr>
-<p><strong>为啥啊这几天bug老让我遇到就连最让我信任的  old sport 都悄悄反水阴我，没关系，计算机是这样的，学完有一种淡淡的感觉。干什么是淡淡的，情绪是淡淡的，感情是淡淡的，人也是淡淡的</strong></p>
-<p><strong>“没有了对bug出现的恼火和无力，只有能不能解决bug的执念”</strong></p>
-]]></content>
-      <categories>
-        <category>随笔</category>
-      </categories>
+      <tags>
+        <tag>贪心</tag>
+      </tags>
   </entry>
   <entry>
     <title>City of God</title>
@@ -107,6 +166,93 @@
       <tags>
         <tag>电影</tag>
       </tags>
+  </entry>
+  <entry>
+    <title>夜调VSCode未果作</title>
+    <url>/2025/12/18/%E5%A4%9C%E8%B0%83VSCode%E6%9C%AA%E6%9E%9C%E4%BD%9C/</url>
+    <content><![CDATA[<h1 id="《调VSCode未果夜作》"><a href="#《调VSCode未果夜作》" class="headerlink" title="《调VSCode未果夜作》"></a>《调VSCode未果夜作》</h1><p>独坐寒宵对冷屏，千行代码似迷城。<br>终端不现如星隐，调试频来若鬼萦。</p>
+<p>三更未解编译误，五鼓难求运行声。<br>忽忆故人调试法，重装系统是终程。</p>
+<h3 id="PS："><a href="#PS：" class="headerlink" title="PS："></a>PS：</h3><p>末句戏言耳，莫真格盘。然调试之苦，编程者皆尝。夜虽深，志勿堕，明晨再战必可克。</p>
+<hr>
+<p><strong>为啥啊这几天bug老让我遇到就连最让我信任的  old sport 都悄悄反水阴我，没关系，计算机是这样的，学完有一种淡淡的感觉。干什么是淡淡的，情绪是淡淡的，感情是淡淡的，人也是淡淡的</strong></p>
+<p><strong>“没有了对bug出现的恼火和无力，只有能不能解决bug的执念”</strong></p>
+]]></content>
+      <categories>
+        <category>随笔</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>织心</title>
+    <url>/2025/12/13/%E7%BB%87%E5%BF%83/</url>
+    <content><![CDATA[<p>经历了数年的难以计量的磨难，外人看起来轻巧的一身功夫却是多少年的汗泪灌溉。从没错过的日升日落，一套套磨坏的衣裳，沾了磨破脚的血干结成块的袜子。。。。。。一切就在离开的那天告终了，不再有让人想要牙关咬碎的日子，但心里又空空的。</p>
+<p>走出这座山，会有海么？会有什么山上没有的什么新奇玩意吗？其他门派的功夫又是如何呢?躺在散发着茅草香气的床铺上，我开始想象未来的生活。寺里不收留有能耐的人，但凡到了能独当一面的年纪，下山是开始自食其力，也是孑然一身的开始。依稀记得师傅帮我收拾包裹时抖动的胡须，他一辈子没离开过，也走不出这座山。他将多少孩子托举到今天，要不是家里养不起，谁会送孩子来吃这碗苦饭呢！练功的时候我恨不得让这个老头给用棍子打昏死过去，也天天凭着少年心气犯呛装混，但如今我却读懂了疼痛背后的含义。父母的脸早已模糊，想的脑袋发疼也记不得半点音容笑貌。但我却记得那些温暖的片段，是它们支撑我走完这几乎处处峭壁陡崖的道路。</p>
+<p>下了山，什么东西都像隔雾看花，不真切。时间以记不清多块的地步流水一样远去，我想要在这水幕做成的纸上留下什么，却是徒劳。混口饭吃，何谈用不用得上功夫啊！好一阵子我像无头苍蝇一样四处乱撞，只为先填饱肚子。什么活我都试着能不能干，可习武的笨手哪能做那些精细玩意。去当苦力，工头的狗仗人势让我咽不下这口恶气。码头的夜晚，微风习习，才初秋我却如坠冰窟般寒冷。这么多年来，师傅从没把我当女孩看待，我也并没觉得男女有什么不同。而此时我才意识到作为一个女子无依无靠，活在这世上有多难。</p>
+<p>事情的转变从遇见清瑶姐开始。不出所料，和前几份被我搞砸的差事一样，新谋得的薄差出了差池，眼看就要飞走。正当我准备卷铺盖从布匹坊走人时，一个声音从远处飘来。”哎呀老王，何必对新人那么挑剔呢，人家还是个小姑娘!”看着被我染花的布，她眼睛却笑的弯弯的，睫毛垂下来。她远去的背影这样娇小但是又满含善意，我不由得心生感激。正当我打算再和王掌柜赔笑脸道歉时，她又转过身来，定定地看着我，我不敢与之对视，目光虚浮地看着她那泛着淡桃色的双唇，”以后叫我清瑶姐就行!”</p>
+<p>师傅教过我，不能让别人白帮忙。我用新发的工钱买了糕点，马不停蹄地赶在晚饭后送去给她。甜蜜的香气钻进我的鼻子里，袋子随着轻快的脚步越来越轻。我想象着清瑶姐看见这些惊喜而又可爱的样子。那天，我们在院子里的亭中聊了很多，竹影切碎了月光，轻缓地抖动。这似乎是我们缘分的正式开始，她教我一些处事准则，女孩子家的礼仪规矩；我则尽己所能干好布行的活，闲暇之余叫她些保护自己的功夫。但那天的谈话又仿佛并没有拉近我们的距离，一些无关痛痒的内容，我们之间仍旧隔着隐形的障壁。似乎她与我年龄相仿，却承担起了布行大大小小的生意，与人周旋，见人说人话。她的活泛和成熟与年龄极不相符，我生出层层疑惑。</p>
+<p>每天的生活很累，但是为了糊饱肚子我也将就着现在的差事。做工的同时我不忘打听着其他活儿，但是我又舍不得清瑶姐，她那淡色的双唇，娇小的身影。。。。。。</p>
+<p>又是一天晚上，转眼间我已经待了两月有余了。布行的布在我眼里不是由丝线编成的，而是由时间的经纬密密匝匝地结成。而那鲜艳或淡雅的颜色，同样提供了我生命的颜料，如此静静装点黑白的世界。有什么不懂的，我总攒着问题去找清瑶姐，柔柔的声音这样从齿缝传出，我总忘了记住要点是什么。我正做完了当天的活，准备好好歇会时，却看见她落寞的身影。我是个粗愚的人，但是我却能从那个月光下的身影读出暗淡与惆怅。立在树下站了许久，寒蝉凄切，空气是植物潮湿的味道和青草香味的混合，我听着自己的心跳，思来想去还是去找她了。</p>
+<p>“清。。清瑶姐。。。。。。。”我刚叫出名字就看见她布满泪痕的脸。但她辨得是我，淡淡地挤出了一个笑容。我愣在原地，话像一团湿棉花堵在心口，想要说什么，我不知道。于是我看着她，“哎。。。。。”我的声音低到听不见。她用手背擦干净半干的泪痕，转而说：“会喝酒吗？”</p>
+<p>“。。。。。。。”</p>
+<p>院子里，一张小桌，两盅请酒，和几盘有荤有素的菜，便是今晚的开端。我们坐定，却并不知道从何开口。”清瑶姐，我从小被父母送到师傅那，也算无依无靠。有什么事我虽然帮不上忙，但是你说，我要是能帮肯定帮!”</p>
+<p>这天，在满是布料清香的后堂，我们聊到凌晨四点。</p>
+<p>她终日抚过丝绸的润、棉麻的糙。十指不沾春水，却沾满了云霞般的染料，能辨出百种布料的经纬，能为每一位顾客挑中最衬气质的衣料。我空有一身力气，却无处安身，像一块未经裁剪的粗布。她的布行收留了我。她教我识布、量裁、算账，教我如何将一身锋芒，妥帖地收敛于这烟火人间。她耐心教我分辨苏绣与湘绣的针脚，如何在算盘上打出清脆的响声。我发现她看似柔弱的手腕，抖开一整匹布时，蕴含着不曾理解的、柔韧而强大的力量。</p>
+<p>我想着这一切，出了神。而清瑶姐却只是一次又一次斟满酒，仰脖一饮而尽。我看着酒从她浮动着青筋的脖子流下，心疼不已。”我出生于一个重男轻女的丝绸世家，靠着不服输的一股子劲，才从兄弟手中争得了这间布行。”</p>
+<p>我的疑惑终于揭开，看着柔弱却又坚强的她，心里不免酸涩，也举起酒杯闷闷地喝着。辛辣而又散发着奇怪香气的液体，入喉并不好喝，我泛起恶心，没喝几杯便扶着树吐起来。胃液灼烧着我的喉咙，看见地上饭羹的残渣不免的又想作呕。恶心翻涌着支配着我的胃部。“干脆吐得天昏地暗得了。”我不住的想着，却感受到一只手在轻拍我的背，一下，一下。隔着衣服我感受到了她手的温度。接过递来的手帕，我看见精致的刺绣图案，却无心欣赏，抹了抹嘴便一屁股坐到石凳上。</p>
+<p>“你的手很稳，心也很静，天生就是学染布的料。习武之人的专注，比什么都珍贵。”</p>
+<p>我心里一震，眼前因为欣喜而一阵眩晕。心脏跳得厉害，又想要吐。但是心里突然一阵子无所谓，又灌了一杯酒。我的脸滚烫，好像在发烧。</p>
+<p>她微醺，站起身来，走到架子旁，抚着一匹艳丽的锦缎，苦笑说：“你看这料子，人人都说它华美，却嫌它扎人。可我偏喜欢。就像我喜欢的，总是不被世俗认可的人与事。”</p>
+<p>你看着她在烛火下柔和的侧脸，心头巨震。我忽然明白了，为何她的眼神里，总带着一份超越老板与伙计的欣赏与疼惜。原来是看到了与她同样的、不愿被世俗规训的灵魂。</p>
+<p>你一拳能断砖碎石，此刻却小心翼翼地，生怕碰碎了她眼底的脆弱。你分不清，这究竟是弟子对师父的敬仰，是流浪者对收留者的感恩，还是一种更私密、更温柔的情感。</p>
+<p>“宅子里的种种，我够了，也不想去想。与李家的联姻，我不屑一顾。什么是幸福呢，父母在我眼里，是一种身份，而不是活生生的人。现在就连婚姻，都成了另一种形式上的相伴。如此密闭的深阁，我看不见一丝光亮。”</p>
+<p>她眼睛里好像有泪光，一颤一颤地抖动。忽然，淡红的双颊上挂了一丝笑容。“但是，我曾与一位，和我一样的女子心意相通。”</p>
+<p>一瞬间，世界开始旋转，过往的她的形象一帧帧闪过。一时间，我竟然分不清对她到底是什么情感。我应该为她喜欢女子而感到欣喜吗？还是为她已有佳人相伴而遗憾呢？到底是感激与欣赏交织使我误解了自己的感情，还是真的有心底真情懵懂地萌动？我分辨不清，眼里闪烁着丝绸与布匹斑驳的杂色。</p>
+<p>没等我沉浸在繁乱的思绪中太长时间，她又用颤抖的声音平静的诉说着。</p>
+<p>“径山寺，烟雨朦胧，我看远山层叠，看飞檐斗拱，看雨霖铃，入寺不为礼佛。我记得那人也曾去过山寺虔诚叩首，亲笔写下与我白头偕老的愿望。求佛又有何用？泥胎木塑的菩萨，想不通为什么昨日视如珍宝的人，今日会被弃如敝履。。。”</p>
+<p>我托着额，只想给她一个无言的怀抱。可身体却不允许，趴在了桌子上。</p>
+<p>仿佛是在梦中，我又回到了寺里，学习另一门更为深邃的武功——学会用一颗习武的心，去感受和回应一份如丝绸般细密、柔韧的情意。</p>
+<h2 id="一篇学期初之际的随笔（2025-9"><a href="#一篇学期初之际的随笔（2025-9" class="headerlink" title="一篇学期初之际的随笔（2025.9"></a>一篇学期初之际的随笔（2025.9</h2>]]></content>
+      <categories>
+        <category>随笔</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>快速幂</title>
+    <url>/2025/12/16/%E5%BF%AB%E9%80%9F%E5%B9%82/</url>
+    <content><![CDATA[<h1 id="快速幂"><a href="#快速幂" class="headerlink" title="快速幂"></a>快速幂</h1><h3 id="常规幂运算："><a href="#常规幂运算：" class="headerlink" title="常规幂运算："></a>常规幂运算：</h3><p>计算a^n 需要O(n)次乘法，例如2^5 &#x3D; 2 * 2 * 2 * 2 * 2, so overwhelming<br>当n很大时这种方法不可取</p>
+<h3 id="快速幂："><a href="#快速幂：" class="headerlink" title="快速幂："></a>快速幂：</h3><p>可以在O(log(n))的时间复杂度内完成计算</p>
+<h1 id="基本思想：二分法"><a href="#基本思想：二分法" class="headerlink" title="基本思想：二分法"></a>基本思想：二分法</h1><p>如果n是偶数：a^n &#x3D; (a^(n&#x2F;2)) ^ 2;<br>如果是奇数：a^n &#x3D; (a^(n-1)) * a;</p>
+<h1 id="算法实现"><a href="#算法实现" class="headerlink" title="算法实现"></a>算法实现</h1><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="keyword">using</span> ll=<span class="type">long</span> <span class="type">long</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">//迭代版</span></span><br><span class="line"><span class="function">ll <span class="title">fast_pow</span><span class="params">(ll a,ll n)</span></span>&#123;</span><br><span class="line">    ll result=<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">while</span>(n&gt;<span class="number">0</span>)&#123;</span><br><span class="line">        <span class="keyword">if</span>(n&amp;<span class="number">1</span>)&#123;  <span class="comment">//如果n是奇数</span></span><br><span class="line">        result*=a;</span><br><span class="line">        &#125;</span><br><span class="line">        a*=a;</span><br><span class="line">        n&gt;&gt;=<span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//递归版</span></span><br><span class="line"><span class="function">ll <span class="title">FastPow</span><span class="params">(ll a,ll n)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(n==<span class="number">0</span>) <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">if</span>(n%<span class="number">2</span>==<span class="number">0</span>)&#123;</span><br><span class="line">        ll half=<span class="built_in">FastPow</span>(a,n/<span class="number">2</span>);</span><br><span class="line">        <span class="keyword">return</span> half*half;</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> a*<span class="built_in">FastPow</span>(a,n<span class="number">-1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>笔者觉得还是第二版更好理解，因为第一版还需要额外了解一点小知识点（课堂上必定会有提及，但是我摸鱼故没听见</p>
+<p><em>迭代版补充</em>：</p>
+<ol>
+<li><p>n&amp;1为位运算，检查n是否为奇数,只检查 n 的二进制最后一位（二进制最后一位是1），如果指数是奇数，需要将当前的底数乘进结果中</p>
+</li>
+<li><p>n&gt;&gt;1等价于n&#x2F;&#x3D;2,使用位右移一位，相当于整除以2</p>
+<ol>
+<li>计算过程举例<br>Q:计算3^13<br>初始：result&#x3D;1, a&#x3D;3, n&#x3D;13 (二进制为1101)</li>
+</ol>
+<p>第一轮：n&#x3D;13(奇数)<br>n&amp;1&#x3D;1 -&gt; result&#x3D; 1 * 3 &#x3D;3<br>a &#x3D; 3 * 3 &#x3D; 9<br>n &#x3D; 13&gt;&gt;1 &#x3D;6</p>
+<p>第二轮： n&#x3D;6(偶数)<br>n&amp;1&#x3D;0 -&gt; result不变<br>a &#x3D; 9 * 9 &#x3D; 81<br>n &#x3D; 6&gt;&gt;1 &#x3D; 3</p>
+<p>第三轮： n&#x3D;3(奇数)<br>n&amp;1&#x3D;1 -&gt; result &#x3D; 3 * 81 &#x3D; 243<br>a &#x3D; 81 * 81 &#x3D; 6561<br>n &#x3D; 3&gt;&gt;1 &#x3D; 1</p>
+<p>第四轮： n&#x3D;1(奇数)<br>n&amp;1&#x3D;1 -&gt; result &#x3D;243 * 6561 &#x3D; 1594323<br>a &#x3D; 6561 * 6561<br>n&#x3D; 1&gt;&gt;1 &#x3D; 0;</p>
+<p>return 1594323</p>
+</li>
+</ol>
+<p> 看完例子相信大家有种豁然开朗之感，就像英语背单词需要带入句子，如果不理解如何运行不妨举个例子试一试</p>
+<h1 id="带模运算的版本"><a href="#带模运算的版本" class="headerlink" title="带模运算的版本"></a>带模运算的版本</h1> <figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">//其实就是一步一除模</span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;iosteam&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="keyword">using</span> ll = <span class="type">long</span> <span class="type">long</span>;</span><br><span class="line"></span><br><span class="line"><span class="function">ll <span class="title">fast_mod</span><span class="params">(ll a,ll n,ll mod)</span></span>&#123;</span><br><span class="line">   ll result=<span class="number">1</span>;</span><br><span class="line">   a%=mod; <span class="comment">//先取模防止a过大</span></span><br><span class="line"></span><br><span class="line">   <span class="keyword">while</span>(n&gt;<span class="number">0</span>)&#123;</span><br><span class="line">       <span class="keyword">if</span>(n&amp;<span class="number">1</span>)&#123;</span><br><span class="line">       result=(result*a)%mod;</span><br><span class="line">       &#125;</span><br><span class="line">       a=(a*a)%mod;</span><br><span class="line">       n&gt;&gt;<span class="number">1</span>;</span><br><span class="line">   &#125;</span><br><span class="line">   <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<h1 id="上难度"><a href="#上难度" class="headerlink" title="上难度"></a>上难度</h1><p>我的目的终于达成，在讲完这么多前期准备工作过后,我们迎来终于要上场的问题</p>
+<p><em>矩阵快速幂</em>（以斐波那契数列为例</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;vector&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="keyword">using</span> ll = <span class="type">long</span> <span class="type">long</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> Matrix= vector&lt;vector&lt;ll&gt;&gt;;</span><br><span class="line"></span><br><span class="line"><span class="function">Matrix <span class="title">Mul</span><span class="params">(<span class="type">const</span> Matrix&amp; A,<span class="type">const</span> Matrix&amp; B,ll mod)</span></span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="type">int</span> n=A.<span class="built_in">size</span>();     <span class="comment">//A的行数</span></span><br><span class="line">    <span class="type">int</span> m=B[<span class="number">0</span>].<span class="built_in">size</span>();  <span class="comment">//B的列数</span></span><br><span class="line">    <span class="type">int</span> p=B.<span class="built_in">size</span>();     <span class="comment">//B的行数(A的列数)</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">//创建结果矩阵C,大小为n*m,初始化为0</span></span><br><span class="line">    <span class="function">Matrix <span class="title">C</span><span class="params">(n,vector&lt;ll&gt;(m,<span class="number">0</span>))</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//三重循环</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;n;i++)&#123;  <span class="comment">//C的每一行</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> j=<span class="number">0</span>;j&lt;m;j++)&#123;  <span class="comment">//C的每一列</span></span><br><span class="line">            <span class="keyword">for</span>(<span class="type">int</span> k=<span class="number">0</span>;k&lt;p;k++)&#123;   <span class="comment">//累加A第i列和B第j列的点积（妙</span></span><br><span class="line">            C[i][j]=(C[i][j]+A[i][k]*B[k][j])%mod;</span><br><span class="line"></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> C;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">Matrix <span class="title">FastPow</span><span class="params">(Matrix base,ll n,ll mod)</span></span>&#123;</span><br><span class="line">    <span class="type">int</span> size=base.<span class="built_in">size</span>();  <span class="comment">//获取矩阵的维度，假设是方阵</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//创建结果方阵，初始化为单位矩阵</span></span><br><span class="line">    <span class="function">Matrix <span class="title">result</span><span class="params">(size,vector&lt;ll&gt;(size,<span class="number">0</span>))</span></span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;size;i++)&#123;</span><br><span class="line">        result[i][i]=<span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//核心循环：类似快速幂</span></span><br><span class="line">    <span class="keyword">while</span>(n&gt;<span class="number">0</span>)&#123;</span><br><span class="line">        <span class="keyword">if</span>(n&amp;<span class="number">1</span>)&#123;</span><br><span class="line">            <span class="comment">// result*=base</span></span><br><span class="line">            result=<span class="built_in">Mul</span>(result,base,mod);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//base*=base</span></span><br><span class="line">        base=<span class="built_in">Mul</span>(base,base,mod);</span><br><span class="line"></span><br><span class="line">        n&gt;&gt;<span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">ll <span class="title">fibo</span><span class="params">(ll n,ll mod)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(n&lt;=<span class="number">1</span>) <span class="keyword">return</span> n;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//核心：斐波那契的矩阵表示（妙啊</span></span><br><span class="line"><span class="comment">//| F(n+1) |   | 1 1 |   | F(n)   |</span></span><br><span class="line"><span class="comment">//|        | = |     | * |        |</span></span><br><span class="line"><span class="comment">//|  F(n)  |   | 1 0 |   | F(n-1) |</span></span><br><span class="line"><span class="comment">//    简化为</span></span><br><span class="line"><span class="comment">//| F(n+1) |   | 1 1 |^n   | F(1) |</span></span><br><span class="line"><span class="comment">//|        | = |     |   * |      |</span></span><br><span class="line"><span class="comment">//|  F(n)  |   | 1 0 |     | F(0) |</span></span><br><span class="line"><span class="comment">//通过矩阵联系起来了递归！！！</span></span><br><span class="line">    Matrix base=&#123;&#123;<span class="number">1</span>,<span class="number">1</span>&#125;,&#123;<span class="number">1</span>,<span class="number">0</span>&#125;&#125;;</span><br><span class="line"></span><br><span class="line">    Matrix result=<span class="built_in">FastPow</span>(base,n<span class="number">-1</span>,mod);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> result[<span class="number">0</span>][<span class="number">0</span>];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<p>快速幂这种基础算法，是构建更复杂算法（矩阵快速幂、数论运算）的基石。<strong>基础不牢，地动山摇</strong>。线代也要好好学，嗯。</p>
+]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
   </entry>
   <entry>
     <title>搜搜搜搜索</title>
@@ -197,146 +343,5 @@
       <tags>
         <tag>搜索</tag>
       </tags>
-  </entry>
-  <entry>
-    <title>竹官明的碎碎念</title>
-    <url>/2025/12/08/%E7%AB%B9%E5%AE%98%E6%98%8E%E7%9A%84%E7%A2%8E%E7%A2%8E%E5%BF%B5/</url>
-    <content><![CDATA[<h1 id="我的第一篇博客"><a href="#我的第一篇博客" class="headerlink" title="我的第一篇博客"></a>我的第一篇博客</h1><h2 id="关于我的网名"><a href="#关于我的网名" class="headerlink" title="关于我的网名"></a>关于我的网名</h2><p>因为我的姓氏“管”拆开是“竹官”，再加上“明”这个本应在我名字中出现却最终缺席的辈分，于是便有了“<strong>竹官明</strong>”这个网名。如今它也成为这个博客的名字。</p>
-<h2 id="成立网站的契机和初衷"><a href="#成立网站的契机和初衷" class="headerlink" title="成立网站的契机和初衷"></a>成立网站的契机和初衷</h2><h3 id="契机"><a href="#契机" class="headerlink" title="契机"></a>契机</h3><p>作为一个开局没有基础装备的在新手村乱晃的萌新，每次了解到一些学姐学长的光辉过往，总给人一种“忆往昔，峥嵘岁月稠”之感，随之而来的也有想要与他们并肩的渴望与满溢的迷茫。一位予我“<strong>性如白玉烧犹冷</strong>”之感的学姐给我的感觉更甚，作为亦师亦友的关系，我受益颇多。当她轻描淡写地提到“可以拥有一个自己的网站”时，这个念头便如竹笋遇雨——悄然破土，迅速生长。于是，几乎没有犹豫，我开始了这场看似突然、实则早已埋下伏笔的实践。</p>
-<h3 id="初衷"><a href="#初衷" class="headerlink" title="初衷"></a>初衷</h3><p>竹子的几乎是<strong>永恒的生命力和不张扬的品性</strong>，是我一直向往的境界。它的生长过程也在我初次听闻之初给我带来很大的震撼：先是在幼年的竹笋时期发展延伸自己的地下茎，默默扎根，看似缓慢甚至停滞；待到根系四通八达、积蓄足够养分后，便能在短短数十天内拔地而起，高耸入云。这像极了人的成长：漫长的积累与沉淀，往往不为人所见；真正的突破，却可能在某一刻突然到来。我想用这个博客，记录下那些“<strong>看不见的扎根</strong>”与“<strong>看得见的生长</strong>”。</p>
-<p>当然，这个网站也会有一些偏轻松性质的小小文字，就像竹林间的微风、叶隙漏下的光斑，或雨后笋尖挂着的水珠——不必沉重，不必宏大，只为记录那些值得记录的时刻。这些碎片并不成体系，却真实地构成了生活的经纬。竹林中除了挺拔的竹杆，也该有低矮的蕨类、散落的竹叶、偶尔停驻的鸟鸣——<strong>这个博客，也想留下这些“轻而真”的片段</strong>。欢迎你，偶尔也来竹下坐坐，吹吹风，听听叶响。<strong>这里不用总是“向上生长”，也可以“向外呼吸”</strong>。</p>
-<h2 id="最后想说的"><a href="#最后想说的" class="headerlink" title="最后想说的"></a>最后想说的</h2><p>如竹般虚心成长，有节有度，常青不败。竹子是空心的，因而能纳风、能听雨、能共鸣。这个博客，我也想让它成为这样一个空间：<strong>虚心、开放、持续生长</strong>。</p>
-<p>谨以此名，与此站，纪念所有默默扎根的时光。</p>
-<p><strong>欢迎你，来到竹官明的世界。<br>愿我们都能在自己的季节里，生长成一片竹林</strong>。</p>
-]]></content>
-      <categories>
-        <category>随笔</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>快速幂</title>
-    <url>/2025/12/16/%E5%BF%AB%E9%80%9F%E5%B9%82/</url>
-    <content><![CDATA[<h1 id="快速幂"><a href="#快速幂" class="headerlink" title="快速幂"></a>快速幂</h1><h3 id="常规幂运算："><a href="#常规幂运算：" class="headerlink" title="常规幂运算："></a>常规幂运算：</h3><p>计算a^n 需要O(n)次乘法，例如2^5 &#x3D; 2 * 2 * 2 * 2 * 2, so overwhelming<br>当n很大时这种方法不可取</p>
-<h3 id="快速幂："><a href="#快速幂：" class="headerlink" title="快速幂："></a>快速幂：</h3><p>可以在O(log(n))的时间复杂度内完成计算</p>
-<h1 id="基本思想：二分法"><a href="#基本思想：二分法" class="headerlink" title="基本思想：二分法"></a>基本思想：二分法</h1><p>如果n是偶数：a^n &#x3D; (a^(n&#x2F;2)) ^ 2;<br>如果是奇数：a^n &#x3D; (a^(n-1)) * a;</p>
-<h1 id="算法实现"><a href="#算法实现" class="headerlink" title="算法实现"></a>算法实现</h1><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="keyword">using</span> ll=<span class="type">long</span> <span class="type">long</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">//迭代版</span></span><br><span class="line"><span class="function">ll <span class="title">fast_pow</span><span class="params">(ll a,ll n)</span></span>&#123;</span><br><span class="line">    ll result=<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">while</span>(n&gt;<span class="number">0</span>)&#123;</span><br><span class="line">        <span class="keyword">if</span>(n&amp;<span class="number">1</span>)&#123;  <span class="comment">//如果n是奇数</span></span><br><span class="line">        result*=a;</span><br><span class="line">        &#125;</span><br><span class="line">        a*=a;</span><br><span class="line">        n&gt;&gt;=<span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//递归版</span></span><br><span class="line"><span class="function">ll <span class="title">FastPow</span><span class="params">(ll a,ll n)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(n==<span class="number">0</span>) <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">if</span>(n%<span class="number">2</span>==<span class="number">0</span>)&#123;</span><br><span class="line">        ll half=<span class="built_in">FastPow</span>(a,n/<span class="number">2</span>);</span><br><span class="line">        <span class="keyword">return</span> half*half;</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> a*<span class="built_in">FastPow</span>(a,n<span class="number">-1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>笔者觉得还是第二版更好理解，因为第一版还需要额外了解一点小知识点（课堂上必定会有提及，但是我摸鱼故没听见</p>
-<p><em>迭代版补充</em>：</p>
-<ol>
-<li><p>n&amp;1为位运算，检查n是否为奇数,只检查 n 的二进制最后一位（二进制最后一位是1），如果指数是奇数，需要将当前的底数乘进结果中</p>
-</li>
-<li><p>n&gt;&gt;1等价于n&#x2F;&#x3D;2,使用位右移一位，相当于整除以2</p>
-<ol>
-<li>计算过程举例<br>Q:计算3^13<br>初始：result&#x3D;1, a&#x3D;3, n&#x3D;13 (二进制为1101)</li>
-</ol>
-<p>第一轮：n&#x3D;13(奇数)<br>n&amp;1&#x3D;1 -&gt; result&#x3D; 1 * 3 &#x3D;3<br>a &#x3D; 3 * 3 &#x3D; 9<br>n &#x3D; 13&gt;&gt;1 &#x3D;6</p>
-<p>第二轮： n&#x3D;6(偶数)<br>n&amp;1&#x3D;0 -&gt; result不变<br>a &#x3D; 9 * 9 &#x3D; 81<br>n &#x3D; 6&gt;&gt;1 &#x3D; 3</p>
-<p>第三轮： n&#x3D;3(奇数)<br>n&amp;1&#x3D;1 -&gt; result &#x3D; 3 * 81 &#x3D; 243<br>a &#x3D; 81 * 81 &#x3D; 6561<br>n &#x3D; 3&gt;&gt;1 &#x3D; 1</p>
-<p>第四轮： n&#x3D;1(奇数)<br>n&amp;1&#x3D;1 -&gt; result &#x3D;243 * 6561 &#x3D; 1594323<br>a &#x3D; 6561 * 6561<br>n&#x3D; 1&gt;&gt;1 &#x3D; 0;</p>
-<p>return 1594323</p>
-</li>
-</ol>
-<p> 看完例子相信大家有种豁然开朗之感，就像英语背单词需要带入句子，如果不理解如何运行不妨举个例子试一试</p>
-<h1 id="带模运算的版本"><a href="#带模运算的版本" class="headerlink" title="带模运算的版本"></a>带模运算的版本</h1> <figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">//其实就是一步一除模</span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;iosteam&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="keyword">using</span> ll = <span class="type">long</span> <span class="type">long</span>;</span><br><span class="line"></span><br><span class="line"><span class="function">ll <span class="title">fast_mod</span><span class="params">(ll a,ll n,ll mod)</span></span>&#123;</span><br><span class="line">   ll result=<span class="number">1</span>;</span><br><span class="line">   a%=mod; <span class="comment">//先取模防止a过大</span></span><br><span class="line"></span><br><span class="line">   <span class="keyword">while</span>(n&gt;<span class="number">0</span>)&#123;</span><br><span class="line">       <span class="keyword">if</span>(n&amp;<span class="number">1</span>)&#123;</span><br><span class="line">       result=(result*a)%mod;</span><br><span class="line">       &#125;</span><br><span class="line">       a=(a*a)%mod;</span><br><span class="line">       n&gt;&gt;<span class="number">1</span>;</span><br><span class="line">   &#125;</span><br><span class="line">   <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-<h1 id="上难度"><a href="#上难度" class="headerlink" title="上难度"></a>上难度</h1><p>我的目的终于达成，在讲完这么多前期准备工作过后,我们迎来终于要上场的问题</p>
-<p><em>矩阵快速幂</em>（以斐波那契数列为例</p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;vector&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="keyword">using</span> ll = <span class="type">long</span> <span class="type">long</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> Matrix= vector&lt;vector&lt;ll&gt;&gt;;</span><br><span class="line"></span><br><span class="line"><span class="function">Matrix <span class="title">Mul</span><span class="params">(<span class="type">const</span> Matrix&amp; A,<span class="type">const</span> Matrix&amp; B,ll mod)</span></span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="type">int</span> n=A.<span class="built_in">size</span>();     <span class="comment">//A的行数</span></span><br><span class="line">    <span class="type">int</span> m=B[<span class="number">0</span>].<span class="built_in">size</span>();  <span class="comment">//B的列数</span></span><br><span class="line">    <span class="type">int</span> p=B.<span class="built_in">size</span>();     <span class="comment">//B的行数(A的列数)</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">//创建结果矩阵C,大小为n*m,初始化为0</span></span><br><span class="line">    <span class="function">Matrix <span class="title">C</span><span class="params">(n,vector&lt;ll&gt;(m,<span class="number">0</span>))</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//三重循环</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;n;i++)&#123;  <span class="comment">//C的每一行</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> j=<span class="number">0</span>;j&lt;m;j++)&#123;  <span class="comment">//C的每一列</span></span><br><span class="line">            <span class="keyword">for</span>(<span class="type">int</span> k=<span class="number">0</span>;k&lt;p;k++)&#123;   <span class="comment">//累加A第i列和B第j列的点积（妙</span></span><br><span class="line">            C[i][j]=(C[i][j]+A[i][k]*B[k][j])%mod;</span><br><span class="line"></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> C;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">Matrix <span class="title">FastPow</span><span class="params">(Matrix base,ll n,ll mod)</span></span>&#123;</span><br><span class="line">    <span class="type">int</span> size=base.<span class="built_in">size</span>();  <span class="comment">//获取矩阵的维度，假设是方阵</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//创建结果方阵，初始化为单位矩阵</span></span><br><span class="line">    <span class="function">Matrix <span class="title">result</span><span class="params">(size,vector&lt;ll&gt;(size,<span class="number">0</span>))</span></span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;size;i++)&#123;</span><br><span class="line">        result[i][i]=<span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//核心循环：类似快速幂</span></span><br><span class="line">    <span class="keyword">while</span>(n&gt;<span class="number">0</span>)&#123;</span><br><span class="line">        <span class="keyword">if</span>(n&amp;<span class="number">1</span>)&#123;</span><br><span class="line">            <span class="comment">// result*=base</span></span><br><span class="line">            result=<span class="built_in">Mul</span>(result,base,mod);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//base*=base</span></span><br><span class="line">        base=<span class="built_in">Mul</span>(base,base,mod);</span><br><span class="line"></span><br><span class="line">        n&gt;&gt;<span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">ll <span class="title">fibo</span><span class="params">(ll n,ll mod)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(n&lt;=<span class="number">1</span>) <span class="keyword">return</span> n;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//核心：斐波那契的矩阵表示（妙啊</span></span><br><span class="line"><span class="comment">//| F(n+1) |   | 1 1 |   | F(n)   |</span></span><br><span class="line"><span class="comment">//|        | = |     | * |        |</span></span><br><span class="line"><span class="comment">//|  F(n)  |   | 1 0 |   | F(n-1) |</span></span><br><span class="line"><span class="comment">//    简化为</span></span><br><span class="line"><span class="comment">//| F(n+1) |   | 1 1 |^n   | F(1) |</span></span><br><span class="line"><span class="comment">//|        | = |     |   * |      |</span></span><br><span class="line"><span class="comment">//|  F(n)  |   | 1 0 |     | F(0) |</span></span><br><span class="line"><span class="comment">//通过矩阵联系起来了递归！！！</span></span><br><span class="line">    Matrix base=&#123;&#123;<span class="number">1</span>,<span class="number">1</span>&#125;,&#123;<span class="number">1</span>,<span class="number">0</span>&#125;&#125;;</span><br><span class="line"></span><br><span class="line">    Matrix result=<span class="built_in">FastPow</span>(base,n<span class="number">-1</span>,mod);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> result[<span class="number">0</span>][<span class="number">0</span>];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-<p>快速幂这种基础算法，是构建更复杂算法（矩阵快速幂、数论运算）的基石。<strong>基础不牢，地动山摇</strong>。线代也要好好学，嗯。</p>
-]]></content>
-      <categories>
-        <category>算法</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>贪心</title>
-    <url>/2025/12/21/%E8%B4%AA%E5%BF%83/</url>
-    <content><![CDATA[<h1 id="贪心-Greedy-Algorithm"><a href="#贪心-Greedy-Algorithm" class="headerlink" title="贪心(Greedy Algorithm)"></a>贪心(Greedy Algorithm)</h1><p>这个带有些许贬义的名字可以直观看出算法的,因为想要最多的所以目光短浅，每一步选择都采取当下选择最优解，从而导致全局最优的算法策略</p>
-<p><strong>核心思想</strong></p>
-<ol>
-<li>局部最优从而导致全局最优</li>
-<li>不会回溯：一旦做出选择就不再改变或者回退</li>
-<li>短视性</li>
-</ol>
-<p><strong>应用</strong></p>
-<ol>
-<li>活动选择（安排最多但是不冲突的活动</li>
-<li>霍夫曼编码（数据压缩</li>
-<li>最小生成树</li>
-<li>最短路径</li>
-<li>硬币找零</li>
-<li>分数背包问题</li>
-</ol>
-<p>（让我慢慢遇见这些问题吧。。。</p>
-<p>在看见贪心算法时大家应该会有一种稍稍怀疑但是喜悦的感觉，因为如此省心就可以解决问题，实则不然，<strong>在使用贪心算法前，一定要严格证明这个问题是具有贪心性质的！！！</strong></p>
-<h2 id="1-合并果子"><a href="#1-合并果子" class="headerlink" title="1.合并果子"></a>1.<a href="https://www.luogu.com.cn/problem/P1090">合并果子</a></h2><p>题目：在一个果园里，多多已经将所有的果子打了下来，而且按果子的不同种类分成了不同的堆。多多决定把所有的果子合成一堆。</p>
-<p>每一次合并,多多可以把两堆果子合并到一起，消耗的体力等于两堆果子的重量之和。可以看出，所有的果子经过 n−1 次合并之后，就只剩下一堆了。多多在合并果子时总共消耗的体力等于每次合并所耗体力之和。</p>
-<p>因为还要花大力气把这些果子搬回家，所以多多在合并果子时要尽可能地节省体力。假定每个果子重量都为 1，并且已知果子的种类 数和每种果子的数目，你的任务是设计出合并的次序方案，使多多耗费的体力最少，并输出这个最小的体力耗费值。</p>
-<p>例如有 3 种果子，数目依次为 1，2，9。可以先将 1、2 堆合并，新堆数目为 3，耗费体力为 3 。接着，将新堆与原先的第三堆合并，又得到新的堆，数目为 12，耗费体力为 12。所以多多总共耗费体力 &#x3D;3+12&#x3D;15。可以证明 15 为最小的体力耗费值。</p>
-<p><strong>解读</strong><br>这是一个经典的合并果子问题。优先队列（最小堆）解决</p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;queue&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="type">int</span> n;</span><br><span class="line">    cin&gt;&gt;n;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//最小堆</span></span><br><span class="line">    priority_queue&lt;<span class="type">int</span>,vector&lt;<span class="type">int</span>&gt;,greater&lt;<span class="type">int</span>&gt;&gt; q;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;n;i++)&#123;</span><br><span class="line">        <span class="type">int</span> w;</span><br><span class="line">        cin&gt;&gt;w;</span><br><span class="line">        q.<span class="built_in">push</span>(w);</span><br><span class="line">        <span class="comment">//最小的会在顶部</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="type">long</span> <span class="type">long</span> ans=<span class="number">0</span>;</span><br><span class="line">    <span class="comment">//至少需要两个元素才会合并</span></span><br><span class="line">    <span class="keyword">while</span>(q.<span class="built_in">size</span>()&gt;<span class="number">1</span>)&#123;</span><br><span class="line">        <span class="type">int</span> a=q.<span class="built_in">top</span>();q.<span class="built_in">pop</span>();</span><br><span class="line">        <span class="type">int</span> b=q.<span class="built_in">top</span>();q.<span class="built_in">pop</span>();</span><br><span class="line"></span><br><span class="line">        <span class="type">int</span> s=a+b;</span><br><span class="line">        ans+=s;</span><br><span class="line">        q.<span class="built_in">push</span>(s);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    cout&lt;&lt;ans&lt;&lt;endl;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>Q:为啥这种算法就能精力消耗最小呢?</p>
-<p>ans:合并次数是固定的：n堆果子需要n-1次合并</p>
-<p>每个果子的重量在总代价中被计算的次数等于它在树中的深度</p>
-<p>要最小化总代价，应该让重的果子尽量少被合并（放在浅层），轻的果子可以多被合并（放在深层）。</p>
-<p>豁然开朗</p>
-<h2 id="2-彻底怒了"><a href="#2-彻底怒了" class="headerlink" title="2.彻底怒了"></a>2.<a href="https://www.luogu.com.cn/problem/P14113">彻底怒了</a></h2><p>贪心问题总是判断出过后要写出合理的代码实现，但是却往往卡在这一步。分析归类此题需要用何种方法解决其实是第一步也是最重要的一步，但这并不意味着万事大吉</p>
-<h3 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h3><p>金将军有两个长度为 n 的字符串 s,t，他认为一个字符串的愤怒值为其 <code>CDNL</code> 子串的个数。</p>
-<p>现在，他想在 s 中选出一个长度至多为 m的子串 s’，在 t 中选出一个长度至多为 k 的子串 t’，使 s’,t’ 按顺序拼接后的字符串的愤怒值最大，你需要帮他求出这个值。</p>
-<p>子串为原字符串中连续的一段字符组成的字符串。</p>
-<h3 id="碎碎念"><a href="#碎碎念" class="headerlink" title="碎碎念"></a>碎碎念</h3><p>笔者卡住的原因是跨界情况比较复杂，且内部匹配数的快速计算需要滑动窗口技巧，不是简单贪心能一次得到。<br>这个问题其实是一个受限最值子串选取+拼接模式匹配的优化问题，需要分情况仔细讨论并预处理，一想到会有不同的拼接情况，so nerve-racking</p>
-<h3 id="三种情况"><a href="#三种情况" class="headerlink" title="三种情况"></a>三种情况</h3><p>如果列举的话</p>
-<ol>
-<li>只出现在前一个字符串里且都为整个的连续子串，另一个字符串贡献为零</li>
-<li>互换过来</li>
-<li>都有贡献而且两者拼接部分不整，共同在拼接处形成一个<code>CDNL</code></li>
-</ol>
-<p>期末周结束我会回来的。。。</p>
-]]></content>
-      <categories>
-        <category>算法</category>
-      </categories>
-      <tags>
-        <tag>贪心</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>织心</title>
-    <url>/2025/12/13/%E7%BB%87%E5%BF%83/</url>
-    <content><![CDATA[<p>经历了数年的难以计量的磨难，外人看起来轻巧的一身功夫却是多少年的汗泪灌溉。从没错过的日升日落，一套套磨坏的衣裳，沾了磨破脚的血干结成块的袜子。。。。。。一切就在离开的那天告终了，不再有让人想要牙关咬碎的日子，但心里又空空的。</p>
-<p>走出这座山，会有海么？会有什么山上没有的什么新奇玩意吗？其他门派的功夫又是如何呢?躺在散发着茅草香气的床铺上，我开始想象未来的生活。寺里不收留有能耐的人，但凡到了能独当一面的年纪，下山是开始自食其力，也是孑然一身的开始。依稀记得师傅帮我收拾包裹时抖动的胡须，他一辈子没离开过，也走不出这座山。他将多少孩子托举到今天，要不是家里养不起，谁会送孩子来吃这碗苦饭呢！练功的时候我恨不得让这个老头给用棍子打昏死过去，也天天凭着少年心气犯呛装混，但如今我却读懂了疼痛背后的含义。父母的脸早已模糊，想的脑袋发疼也记不得半点音容笑貌。但我却记得那些温暖的片段，是它们支撑我走完这几乎处处峭壁陡崖的道路。</p>
-<p>下了山，什么东西都像隔雾看花，不真切。时间以记不清多块的地步流水一样远去，我想要在这水幕做成的纸上留下什么，却是徒劳。混口饭吃，何谈用不用得上功夫啊！好一阵子我像无头苍蝇一样四处乱撞，只为先填饱肚子。什么活我都试着能不能干，可习武的笨手哪能做那些精细玩意。去当苦力，工头的狗仗人势让我咽不下这口恶气。码头的夜晚，微风习习，才初秋我却如坠冰窟般寒冷。这么多年来，师傅从没把我当女孩看待，我也并没觉得男女有什么不同。而此时我才意识到作为一个女子无依无靠，活在这世上有多难。</p>
-<p>事情的转变从遇见清瑶姐开始。不出所料，和前几份被我搞砸的差事一样，新谋得的薄差出了差池，眼看就要飞走。正当我准备卷铺盖从布匹坊走人时，一个声音从远处飘来。”哎呀老王，何必对新人那么挑剔呢，人家还是个小姑娘!”看着被我染花的布，她眼睛却笑的弯弯的，睫毛垂下来。她远去的背影这样娇小但是又满含善意，我不由得心生感激。正当我打算再和王掌柜赔笑脸道歉时，她又转过身来，定定地看着我，我不敢与之对视，目光虚浮地看着她那泛着淡桃色的双唇，”以后叫我清瑶姐就行!”</p>
-<p>师傅教过我，不能让别人白帮忙。我用新发的工钱买了糕点，马不停蹄地赶在晚饭后送去给她。甜蜜的香气钻进我的鼻子里，袋子随着轻快的脚步越来越轻。我想象着清瑶姐看见这些惊喜而又可爱的样子。那天，我们在院子里的亭中聊了很多，竹影切碎了月光，轻缓地抖动。这似乎是我们缘分的正式开始，她教我一些处事准则，女孩子家的礼仪规矩；我则尽己所能干好布行的活，闲暇之余叫她些保护自己的功夫。但那天的谈话又仿佛并没有拉近我们的距离，一些无关痛痒的内容，我们之间仍旧隔着隐形的障壁。似乎她与我年龄相仿，却承担起了布行大大小小的生意，与人周旋，见人说人话。她的活泛和成熟与年龄极不相符，我生出层层疑惑。</p>
-<p>每天的生活很累，但是为了糊饱肚子我也将就着现在的差事。做工的同时我不忘打听着其他活儿，但是我又舍不得清瑶姐，她那淡色的双唇，娇小的身影。。。。。。</p>
-<p>又是一天晚上，转眼间我已经待了两月有余了。布行的布在我眼里不是由丝线编成的，而是由时间的经纬密密匝匝地结成。而那鲜艳或淡雅的颜色，同样提供了我生命的颜料，如此静静装点黑白的世界。有什么不懂的，我总攒着问题去找清瑶姐，柔柔的声音这样从齿缝传出，我总忘了记住要点是什么。我正做完了当天的活，准备好好歇会时，却看见她落寞的身影。我是个粗愚的人，但是我却能从那个月光下的身影读出暗淡与惆怅。立在树下站了许久，寒蝉凄切，空气是植物潮湿的味道和青草香味的混合，我听着自己的心跳，思来想去还是去找她了。</p>
-<p>“清。。清瑶姐。。。。。。。”我刚叫出名字就看见她布满泪痕的脸。但她辨得是我，淡淡地挤出了一个笑容。我愣在原地，话像一团湿棉花堵在心口，想要说什么，我不知道。于是我看着她，“哎。。。。。”我的声音低到听不见。她用手背擦干净半干的泪痕，转而说：“会喝酒吗？”</p>
-<p>“。。。。。。。”</p>
-<p>院子里，一张小桌，两盅请酒，和几盘有荤有素的菜，便是今晚的开端。我们坐定，却并不知道从何开口。”清瑶姐，我从小被父母送到师傅那，也算无依无靠。有什么事我虽然帮不上忙，但是你说，我要是能帮肯定帮!”</p>
-<p>这天，在满是布料清香的后堂，我们聊到凌晨四点。</p>
-<p>她终日抚过丝绸的润、棉麻的糙。十指不沾春水，却沾满了云霞般的染料，能辨出百种布料的经纬，能为每一位顾客挑中最衬气质的衣料。我空有一身力气，却无处安身，像一块未经裁剪的粗布。她的布行收留了我。她教我识布、量裁、算账，教我如何将一身锋芒，妥帖地收敛于这烟火人间。她耐心教我分辨苏绣与湘绣的针脚，如何在算盘上打出清脆的响声。我发现她看似柔弱的手腕，抖开一整匹布时，蕴含着不曾理解的、柔韧而强大的力量。</p>
-<p>我想着这一切，出了神。而清瑶姐却只是一次又一次斟满酒，仰脖一饮而尽。我看着酒从她浮动着青筋的脖子流下，心疼不已。”我出生于一个重男轻女的丝绸世家，靠着不服输的一股子劲，才从兄弟手中争得了这间布行。”</p>
-<p>我的疑惑终于揭开，看着柔弱却又坚强的她，心里不免酸涩，也举起酒杯闷闷地喝着。辛辣而又散发着奇怪香气的液体，入喉并不好喝，我泛起恶心，没喝几杯便扶着树吐起来。胃液灼烧着我的喉咙，看见地上饭羹的残渣不免的又想作呕。恶心翻涌着支配着我的胃部。“干脆吐得天昏地暗得了。”我不住的想着，却感受到一只手在轻拍我的背，一下，一下。隔着衣服我感受到了她手的温度。接过递来的手帕，我看见精致的刺绣图案，却无心欣赏，抹了抹嘴便一屁股坐到石凳上。</p>
-<p>“你的手很稳，心也很静，天生就是学染布的料。习武之人的专注，比什么都珍贵。”</p>
-<p>我心里一震，眼前因为欣喜而一阵眩晕。心脏跳得厉害，又想要吐。但是心里突然一阵子无所谓，又灌了一杯酒。我的脸滚烫，好像在发烧。</p>
-<p>她微醺，站起身来，走到架子旁，抚着一匹艳丽的锦缎，苦笑说：“你看这料子，人人都说它华美，却嫌它扎人。可我偏喜欢。就像我喜欢的，总是不被世俗认可的人与事。”</p>
-<p>你看着她在烛火下柔和的侧脸，心头巨震。我忽然明白了，为何她的眼神里，总带着一份超越老板与伙计的欣赏与疼惜。原来是看到了与她同样的、不愿被世俗规训的灵魂。</p>
-<p>你一拳能断砖碎石，此刻却小心翼翼地，生怕碰碎了她眼底的脆弱。你分不清，这究竟是弟子对师父的敬仰，是流浪者对收留者的感恩，还是一种更私密、更温柔的情感。</p>
-<p>“宅子里的种种，我够了，也不想去想。与李家的联姻，我不屑一顾。什么是幸福呢，父母在我眼里，是一种身份，而不是活生生的人。现在就连婚姻，都成了另一种形式上的相伴。如此密闭的深阁，我看不见一丝光亮。”</p>
-<p>她眼睛里好像有泪光，一颤一颤地抖动。忽然，淡红的双颊上挂了一丝笑容。“但是，我曾与一位，和我一样的女子心意相通。”</p>
-<p>一瞬间，世界开始旋转，过往的她的形象一帧帧闪过。一时间，我竟然分不清对她到底是什么情感。我应该为她喜欢女子而感到欣喜吗？还是为她已有佳人相伴而遗憾呢？到底是感激与欣赏交织使我误解了自己的感情，还是真的有心底真情懵懂地萌动？我分辨不清，眼里闪烁着丝绸与布匹斑驳的杂色。</p>
-<p>没等我沉浸在繁乱的思绪中太长时间，她又用颤抖的声音平静的诉说着。</p>
-<p>“径山寺，烟雨朦胧，我看远山层叠，看飞檐斗拱，看雨霖铃，入寺不为礼佛。我记得那人也曾去过山寺虔诚叩首，亲笔写下与我白头偕老的愿望。求佛又有何用？泥胎木塑的菩萨，想不通为什么昨日视如珍宝的人，今日会被弃如敝履。。。”</p>
-<p>我托着额，只想给她一个无言的怀抱。可身体却不允许，趴在了桌子上。</p>
-<p>仿佛是在梦中，我又回到了寺里，学习另一门更为深邃的武功——学会用一颗习武的心，去感受和回应一份如丝绸般细密、柔韧的情意。</p>
-<h2 id="一篇学期初之际的随笔（2025-9"><a href="#一篇学期初之际的随笔（2025-9" class="headerlink" title="一篇学期初之际的随笔（2025.9"></a>一篇学期初之际的随笔（2025.9</h2>]]></content>
-      <categories>
-        <category>随笔</category>
-      </categories>
   </entry>
 </search>
