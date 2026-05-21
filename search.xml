@@ -648,6 +648,59 @@
     <title>数学碎片</title>
     <url>/2026/05/21/%E6%95%B0%E5%AD%A6%E7%A2%8E%E7%89%87/</url>
     <content><![CDATA[<p><strong>这篇文章主要收录一些不算奇淫技巧的小tips,这种比较散乱的小知识点记起来还是需要系统化</strong></p>
+<h1 id="蔡勒公式（时间转换到星期几"><a href="#蔡勒公式（时间转换到星期几" class="headerlink" title="蔡勒公式（时间转换到星期几"></a>蔡勒公式（时间转换到星期几</h1><p>学校oj有很多时间转换的题目但是这个可以说知道公式就秒了，如果自己思考实现还是要费一点时间。更巧的是算法期中考完试在楼道还捡到了一张小纸条，就赫然写着这个公式。有种<del>低山臭水遇知音感</del>英雄所见略同感。<br>蔡勒（Zeller）公式是一个非常有名的数学公式，可以直接根据日期（年、月、日）算出那天是<strong>星期几</strong>。</p>
+<h3 id="1-蔡勒公式"><a href="#1-蔡勒公式" class="headerlink" title="1. 蔡勒公式"></a>1. 蔡勒公式</h3><p>$$W &#x3D; (d + 2m + 3(m+1)&#x2F;5 + y + y&#x2F;4 - y&#x2F;100 + y&#x2F;400 + 1) \bmod 7$$</p>
+<ul>
+<li><strong>$y$</strong>：年份</li>
+<li><strong>$m$</strong>：月份</li>
+<li><strong>$d$</strong>：日期</li>
+<li><strong>$W$</strong>：结果。<strong>0代表周日，1代表周一，2代表周二…以此类推，6代表周六</strong>。</li>
+</ul>
+<hr>
+<h3 id="2-最重要的“潜规则”"><a href="#2-最重要的“潜规则”" class="headerlink" title="2. **最重要的“潜规则”"></a>2. **最重要的“潜规则”</h3><p>蔡勒公式有一个非常特殊的规定，如果你忘了这一步，算出来全是错的：</p>
+<p><strong>如果月份是 1月 或 2月，必须把它们看作是前一年的 13月 和 14月。</strong></p>
+<ul>
+<li>比如：2024年 1月 20日 $\rightarrow$ 看作 <strong>2023年 13月 20日</strong>。</li>
+<li>比如：2024年 2月 10日 $\rightarrow$ 看作 <strong>2023年 14月 10日</strong>。</li>
+</ul>
+<hr>
+<h3 id="3-C-代码实现"><a href="#3-C-代码实现" class="headerlink" title="3. C++ 代码实现"></a>3. C++ 代码实现</h3><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">getWeekday</span><span class="params">(<span class="type">int</span> y, <span class="type">int</span> m, <span class="type">int</span> d)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 潜规则：1, 2月要当成上一年的13, 14月</span></span><br><span class="line">    <span class="keyword">if</span> (m == <span class="number">1</span> || m == <span class="number">2</span>) &#123;</span><br><span class="line">        m += <span class="number">12</span>;</span><br><span class="line">        y--;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 蔡勒公式核心逻辑</span></span><br><span class="line">    <span class="type">int</span> w = (d + <span class="number">2</span> * m + <span class="number">3</span> * (m + <span class="number">1</span>) / <span class="number">5</span> + y + y / <span class="number">4</span> - y / <span class="number">100</span> + y / <span class="number">400</span> + <span class="number">1</span>) % <span class="number">7</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> w; <span class="comment">// 0=日, 1=一, 2=二, 3=三, 4=四, 5=五, 6=六</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="公式解释"><a href="#公式解释" class="headerlink" title="公式解释"></a>公式解释</h2><p>乍一看可能有点不知所云，变量还不少，<strong>you’re not alone</strong></p>
+<hr>
+<h3 id="1-蔡勒公式的标准形式（公历）"><a href="#1-蔡勒公式的标准形式（公历）" class="headerlink" title="1. 蔡勒公式的标准形式（公历）"></a>1. 蔡勒公式的标准形式（公历）</h3><p>$$W &#x3D; \left( y + \lfloor \frac{y}{4} \rfloor + \lfloor \frac{c}{4} \rfloor - 2c + \lfloor \frac{26(m+1)}{10} \rfloor + d - 1 \right) \pmod 7$$</p>
+<h4 id="变量含义："><a href="#变量含义：" class="headerlink" title="变量含义："></a>变量含义：</h4><ul>
+<li><strong>$W$</strong>：星期几。计算结果：0-周日，1-周一，2-周二，3-周三，4-周四，5-周五，6-周六。<ul>
+<li><em>注意：有的版本计算结果 0 是周六，这取决于公式末尾是 -1 还是其他的修正值。</em></li>
+</ul>
+</li>
+<li><strong>$c$</strong>：世纪数减 1（即年份的前两位）。例如 2024 年，$c&#x3D;20$。</li>
+<li><strong>$y$</strong>：年份的后两位。例如 2024 年，$y&#x3D;24$。</li>
+<li><strong>$m$</strong>：月份。<strong>重要：</strong> 1月和2月要看作上一年的13月和14月（此时年份 $y$ 和世纪 $c$ 也要相应按上一年计算）。</li>
+<li><strong>$d$</strong>：日。</li>
+<li><strong>$\lfloor \rfloor$</strong>：表示向下取整（在 C++ 中整数除法自动实现这一点）。</li>
+</ul>
+<hr>
+<h3 id="2-公式各项的物理意义（为什么这么写？）"><a href="#2-公式各项的物理意义（为什么这么写？）" class="headerlink" title="2. 公式各项的物理意义（为什么这么写？）"></a>2. 公式各项的物理意义（为什么这么写？）</h3><p>蔡勒公式本质上是在算**“总偏移天数”**：</p>
+<ol>
+<li><strong>$d$</strong>：每过一天，星期往后移一天。</li>
+<li><strong>$y + \lfloor \frac{y}{4} \rfloor$</strong>：<ul>
+<li>每过一个平年，星期移 1 天（$365 \pmod 7 &#x3D; 1$）。</li>
+<li>每 4 年多出的闰日。</li>
+</ul>
+</li>
+<li><strong>$\lfloor \frac{26(m+1)}{10} \rfloor$</strong>：<ul>
+<li><strong>核心黑科技</strong>。用来处理每个月天数不规则（30或31）产生的偏移。</li>
+<li>它利用 1、2 月挪到岁末的技巧，使得 3-14 月的长度呈现出极其稳定的数学规律。</li>
+</ul>
+</li>
+<li><strong>$\lfloor \frac{c}{4} \rfloor - 2c$</strong>：<ul>
+<li>处理世纪闰年的规则：每 100 年不闰，每 400 年再闰。</li>
+<li>这一项专门校准长达百年的时间误差。</li>
+</ul>
+</li>
+</ol>
+<hr>
 ]]></content>
   </entry>
 </search>
