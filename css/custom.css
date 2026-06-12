@@ -199,3 +199,85 @@ h1.post-title {
     color: #ffffff !important;
     text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.9) !important;
 }
+
+/* =========================
+   代码块整体
+========================= */
+.highlight,
+figure.highlight {
+    background: #1e1e1e !important;
+    border-radius: 12px;
+    box-shadow: 0 5px 20px rgba(0,0,0,.15);
+}
+
+/* 代码字体 */
+.highlight pre,
+.highlight code {
+    color: #ffffff !important;
+    font-size: 16px !important;
+    line-height: 1.8 !important;
+    font-family: Consolas, "JetBrains Mono", monospace;
+}
+
+/* 行号区域 */
+.highlight .gutter {
+    background: #252526 !important;
+    color: #999 !important;
+}
+
+/* =========================
+   C++ / Python 语法高亮
+========================= */
+
+/* 关键字 */
+.highlight .keyword,
+.highlight .built_in {
+    color: #ff79c6 !important;
+    font-weight: 600;
+}
+
+/* 类型 */
+.highlight .type {
+    color: #8be9fd !important;
+    font-weight: 600;
+}
+
+/* 数字 */
+.highlight .number {
+    color: #ffb86c !important;
+}
+
+/* 字符串 */
+.highlight .string {
+    color: #f1fa8c !important;
+}
+
+/* 函数名 */
+.highlight .title,
+.highlight .function {
+    color: #50fa7b !important;
+    font-weight: 600;
+}
+
+/* 注释 */
+.highlight .comment {
+    color: #9ca3af !important;
+    font-style: italic;
+}
+
+/* 运算符 */
+.highlight .operator {
+    color: #ff5555 !important;
+}
+
+/* =========================
+   当前行高亮
+========================= */
+.highlight .line.marked {
+    background: rgba(255,255,255,.12) !important;
+}
+
+/* 鼠标悬停高亮 */
+.highlight tr:hover {
+    background: rgba(255,255,255,.06);
+}
