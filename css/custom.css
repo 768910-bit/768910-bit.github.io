@@ -1,406 +1,81 @@
-/* 强力透明 - 覆盖所有可能的背景 */
+/* Personal styling layered on top of Butterfly's responsive layout. */
 
-/* === 1. 强制所有元素透明 === */
-* {
-    background-color: transparent !important;
-    background-image: none !important;
+:root {
+  --bamboo-surface: rgba(255, 255, 255, 0.9);
+  --bamboo-surface-strong: rgba(255, 255, 255, 0.96);
+  --bamboo-border: rgba(255, 255, 255, 0.45);
+  --bamboo-shadow: 0 8px 28px rgba(24, 39, 32, 0.16);
 }
 
-/* === 2. 恢复必要的背景 === */
-body {
-    background: url('https://s41.ax1x.com/2025/12/15/pZQn4eO.jpg') fixed center center/cover !important;
-    background-attachment: fixed !important;
-    background-size: cover !important;
-    color: white !important;
-    text-shadow: 2px 2px 4px #000 !important;
+[data-theme='dark'] {
+  --bamboo-surface: rgba(28, 31, 30, 0.9);
+  --bamboo-surface-strong: rgba(24, 27, 26, 0.96);
+  --bamboo-border: rgba(255, 255, 255, 0.1);
+  --bamboo-shadow: 0 8px 28px rgba(0, 0, 0, 0.3);
 }
 
-/* === 3. 标题区域 - 优化版 === */
-#page-header,
-.page-header,
-header#page-header,
-.layout #page-header {
-    display: block !important;
-    background: transparent !important;
-    color: white !important;
-    text-shadow: 3px 3px 10px rgba(0, 0, 0, 0.9) !important;
-    padding: 50px 20px !important;
-    margin: 30px 0 !important;
-    text-align: center !important;
-    position: relative !important;
+/* Keep text readable without overriding the theme's layout rules. */
+#web_bg {
+  background-color: #eef3ef;
 }
 
-/* 主标题 - 纯白色 */
-#page-header h1,
-#page-header .page-title,
-.page-title {
-    color: #ffffff !important;
-    font-size: 3.5em !important;
-    font-weight: 900 !important;
-    letter-spacing: 2px !important;
-    margin: 0 !important;
-    padding: 20px 40px !important;
-    background: rgba(0, 0, 0, 0.6) !important;
-    border-radius: 15px !important;
-    border: 2px solid rgba(255, 255, 255, 0.3) !important;
-    display: inline-block !important;
-    backdrop-filter: blur(10px) !important;
-    text-shadow: 3px 3px 12px rgba(0, 0, 0, 1) !important;
+#page-header {
+  background-color: #385246 !important;
 }
 
-/* === 4. 内容区域 === */
-#content-inner,
-.content-inner,
-main #content-inner {
-    display: block !important;
-    background: transparent !important;
-    color: white !important;
-    text-shadow: 2px 2px 6px #000 !important;
-    padding: 20px !important;
+#recent-posts .recent-post-item,
+#aside-content .card-widget,
+#post,
+#page,
+#archive {
+  background: var(--bamboo-surface) !important;
+  border: 1px solid var(--bamboo-border);
+  box-shadow: var(--bamboo-shadow);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
 }
 
-.recent-post-item,
-.post-bg,
-article.recent-post-item {
-    display: block !important;
-    background: rgba(0, 0, 0, 0.4) !important;
-    color: white !important;
-    text-shadow: 1px 1px 4px #000 !important;
-    margin-bottom: 30px !important;
-    padding: 20px !important;
-    border: 1px solid rgba(255, 255, 255, 0.2) !important;
-    border-radius: 12px !important;
-    backdrop-filter: blur(8px) !important;
+#recent-posts .recent-post-item:hover {
+  box-shadow: 0 12px 34px rgba(24, 39, 32, 0.22);
 }
 
-/* === 5. 文章标题 - 纯白色 === */
-.recent-post-item .post-title {
-    color: #ffffff !important;
-    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.9) !important;
-    background: rgba(0, 0, 0, 0.5) !important;
-    padding: 15px 25px !important;
-    border-radius: 10px !important;
-    border: 1px solid rgba(255, 255, 255, 0.2) !important;
-    font-size: 2em !important;
-    font-weight: 800 !important;
-    margin-bottom: 15px !important;
+#recent-posts .recent-post-item,
+#recent-posts .recent-post-item a,
+#recent-posts .recent-post-item .content {
+  color: var(--font-color) !important;
+  text-shadow: none !important;
 }
 
-/* === 6. 导航栏和侧边栏 === */
-#nav {
-    background: rgba(0, 0, 0, 0.8) !important;
-    backdrop-filter: blur(15px) !important;
+#nav a,
+#site-title,
+#site-subtitle,
+#post-info .post-title,
+#post-info #post-meta {
+  color: #fff;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.75);
 }
 
-#nav .menus_item a,
-#nav .site-page {
-    color: #ffffff !important;
-    text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.8) !important;
-    font-weight: 600 !important;
-    padding: 8px 20px !important;
+#page-header::before {
+  background-color: rgba(0, 0, 0, 0.24);
 }
 
-#nav .menus_item a:hover {
-    color: #ffcccc !important;
-    transform: translateY(-2px) !important;
+#card-toc .toc-link:hover,
+#card-toc .toc-link.active {
+  color: var(--theme-color);
 }
 
-#aside-content .card-widget {
-    background: rgba(0, 0, 0, 0.7) !important;
-    backdrop-filter: blur(15px) !important;
-}
-
-/* === 7. 头像效果 === */
-#aside-content .avatar-img {
-    background: white !important;
-    border: 4px solid rgba(255, 255, 255, 0.9) !important;
-}
-
-/* === 8. 移除所有伪元素的背景 === */
-#page-header::before,
-#page-header::after,
-#content-inner::before,
-#content-inner::after,
-.recent-post-item::before,
-.recent-post-item::after {
-    content: none !important;
-    background: transparent !important;
-}
-
-/* === 9. 其他页面标题 === */
-/* 单篇文章页标题 */
-.post-title,
-h1.post-title {
-    color: #ffffff !important;
-    text-shadow: 3px 3px 10px rgba(0, 0, 0, 0.9) !important;
-    background: rgba(0, 0, 0, 0.6) !important;
-    padding: 20px 40px !important;
-    border-radius: 15px !important;
-    border: 2px solid rgba(255, 255, 255, 0.3) !important;
-    font-size: 2.8em !important;
-}
-
-/* 文章内小标题 */
-.article-content h2,
-.article-content h3 {
-    color: #ffffff !important;
-    text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.8) !important;
-    background: rgba(0, 0, 0, 0.4) !important;
-    padding: 10px 20px !important;
-    border-radius: 8px !important;
-    margin: 15px 0 10px 0 !important;
-}
-
-/* 侧边栏标题 */
-.card-widget .card-title {
-    color: #ffffff !important;
-    text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.8) !important;
-}
-
-/* 页脚文字 */
-#footer-wrap {
-    color: rgba(255, 255, 255, 0.9) !important;
-    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7) !important;
-}
-
-/* ==================== */
-/* 通用文章标题修复 */
-/* ==================== */
-
-/* 方案1：针对所有可能是文章标题的元素 */
-.recent-post-item h2,
-.recent-post-item h1,
-.recent-post-item h2 a,
-.recent-post-item h1 a,
-.post-title-link,
-.article-title a {
-    color: #ffffff !important;
-    text-shadow: 3px 3px 10px rgba(0, 0, 0, 0.9) !important;
-    background: rgba(0, 0, 0, 0.6) !important;
-    padding: 12px 20px !important;
-    border-radius: 10px !important;
-    display: inline-block !important;
-    font-size: 1.8em !important;
-    font-weight: 700 !important;
-}
-
-/* 方案3：给整个文章卡片加更深的背景 */
-.recent-post-item {
-    background: rgba(0, 0, 0, 0.6) !important;
-    backdrop-filter: blur(12px) !important;
-    border: 2px solid rgba(255, 255, 255, 0.2) !important;
-    border-radius: 15px !important;
-    padding: 25px !important;
-}
-
-/* 方案4：使用属性选择器，匹配所有包含"title"的class */
-[class*="title"],
-[id*="title"] {
-    color: #ffffff !important;
-    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.9) !important;
-}
-
-/* =========================
-   代码块整体
-========================= */
 .highlight,
 figure.highlight {
-    background: #1e1e1e !important;
-    border-radius: 12px;
-    box-shadow: 0 5px 20px rgba(0,0,0,.15);
+  border-radius: 6px;
 }
 
-/* 代码字体 */
-.highlight pre,
-.highlight code {
-    color: #ffffff !important;
-    font-size: 16px !important;
-    line-height: 1.8 !important;
-    font-family: Consolas, "JetBrains Mono", monospace;
-}
-
-/* 行号区域 */
-.highlight .gutter {
-    background: #252526 !important;
-    color: #999 !important;
-}
-
-/* =========================
-   C++ / Python 语法高亮
-========================= */
-
-/* 关键字 */
-.highlight .keyword,
-.highlight .built_in {
-    color: #ff79c6 !important;
-    font-weight: 600;
-}
-
-/* 类型 */
-.highlight .type {
-    color: #8be9fd !important;
-    font-weight: 600;
-}
-
-/* 数字 */
-.highlight .number {
-    color: #ffb86c !important;
-}
-
-/* 字符串 */
-.highlight .string {
-    color: #f1fa8c !important;
-}
-
-/* 函数名 */
-.highlight .title,
-.highlight .function {
-    color: #50fa7b !important;
-    font-weight: 600;
-}
-
-/* 注释 */
-.highlight .comment {
-    color: #9ca3af !important;
-    font-style: italic;
-}
-
-/* 运算符 */
-.highlight .operator {
-    color: #ff5555 !important;
-}
-
-/* =========================
-   当前行高亮
-========================= */
-.highlight .line.marked {
-    background: rgba(255,255,255,.12) !important;
-}
-
-/* 鼠标悬停高亮 */
-.highlight tr:hover {
-    background: rgba(255,255,255,.06);
-}
-
-/* =========================
-   分页按钮 - 显示在底部
-========================= */
-#pagination {
-    margin: 40px 0 !important;
-    padding: 20px 0 !important;
-    clear: both !important;
-}
-
-#pagination .pagination {
-    display: flex !important;
-    justify-content: center !important;
-    flex-wrap: wrap !important;
-    gap: 10px !important;
-    margin-top: 30px !important;
-    padding-top: 30px !important;
-    border-top: 1px solid rgba(255,255,255,0.3) !important;
-}
-
-#pagination .pagination a,
-#pagination .pagination .page-number {
-    display: inline-block !important;
-    width: 40px !important;
-    height: 40px !important;
-    line-height: 40px !important;
-    text-align: center !important;
-    background: rgba(0, 0, 0, 0.7) !important;
-    color: #ffffff !important;
-    border-radius: 8px !important;
-    text-decoration: none !important;
-}
-
-#pagination .pagination a:hover,
-#pagination .pagination .page-number:hover {
-    background: rgba(255, 107, 107, 0.8) !important;
-}
-
-#pagination .pagination .current {
-    background: #ff6b6b !important;
-    color: #ffffff !important;
-}
-
-/* =========================
-   侧边栏位置 - 强制右边
-========================= */
-#aside-content {
-    position: absolute !important;
-    right: 20px !important;
-    top: 100px !important;
-    width: 280px !important;
-}
-
-.layout {
-    display: flex !important;
-    flex-direction: row-reverse !important;
-}
-
-#main {
-    margin-right: 320px !important;
-}
-
-/* =========================
-   目录位置修改 - 移到右上方
-========================= */
-#card-toc {
-    position: fixed !important;
-    top: 80px !important;
-    right: 20px !important;
-    left: auto !important;
-    max-height: calc(100vh - 120px) !important;
-    overflow-y: auto !important;
-    z-index: 1000 !important;
-    background: rgba(0, 0, 0, 0.7) !important;
-    backdrop-filter: blur(10px) !important;
-    border-radius: 10px !important;
-    padding: 15px !important;
-}
-
-/* 移动端隐藏目录 */
-@media screen and (max-width: 900px) {
-    #card-toc {
-        display: none !important;
-    }
-}
-
-/* 目录标题样式 */
-#card-toc .toc-title {
-    font-weight: bold !important;
-    color: #ffffff !important;
-    padding: 10px !important;
-}
-
-/* 目录项样式 */
-#card-toc li {
-    padding: 5px 10px !important;
-}
-
-/* 目录链接颜色 */
-#card-toc .toc-link {
-    color: #ffffff !important;
-}
-
-/* 目录hover效果 */
-#card-toc .toc-link:hover {
-    color: #ff6b6b !important;
-}
-
-/* =========================
-   分类页面文字颜色修复
-========================= */
-.category-page,
-.category-list,
-.category-list-item,
-.category-list-count,
-.category-list-name {
-    color: #ffffff !important;
-}
-
-.category-list-item a {
-    color: #ffffff !important;
-    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8) !important;
+@media screen and (max-width: 768px) {
+  #recent-posts .recent-post-item,
+  #aside-content .card-widget,
+  #post,
+  #page,
+  #archive {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
 }
