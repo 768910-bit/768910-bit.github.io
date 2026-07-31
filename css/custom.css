@@ -114,17 +114,18 @@
 
 .home-topic {
   display: grid;
-  grid-template-columns: 38px minmax(0, 1fr) auto;
+  grid-template-columns: minmax(0, 1fr) auto;
   align-items: center;
-  min-height: 86px;
-  padding: 14px 16px;
+  min-height: 118px;
+  padding: 18px 20px;
   overflow: hidden;
   border: 1px solid rgba(35, 75, 59, 0.14);
-  border-top: 3px solid var(--topic-accent, #39765c);
   border-radius: 8px;
-  background: var(--bamboo-surface-strong);
+  background-image: linear-gradient(rgba(12, 29, 23, 0.58), rgba(12, 29, 23, 0.68)), var(--topic-image);
+  background-position: var(--topic-position, center);
+  background-size: cover;
   box-shadow: 0 5px 18px rgba(24, 39, 32, 0.11);
-  color: var(--font-color);
+  color: #fff;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
@@ -133,14 +134,24 @@
   box-shadow: 0 9px 24px rgba(24, 39, 32, 0.17);
 }
 
-.home-topic[data-topic='algorithm'] { --topic-accent: #287553; }
-.home-topic[data-topic='essay'] { --topic-accent: #a45b72; }
-.home-topic[data-topic='tools'] { --topic-accent: #3f7093; }
-.home-topic[data-topic='review'] { --topic-accent: #a98235; }
+.home-topic[data-topic='algorithm'] {
+  --topic-image: url('/img/site/topic-algorithm.png');
+  --topic-position: center 24%;
+}
 
-.home-topic-icon {
-  color: var(--topic-accent);
-  font-size: 1.2rem;
+.home-topic[data-topic='essay'] {
+  --topic-image: url('/img/site/topic-essay.jpg');
+  --topic-position: center 47%;
+}
+
+.home-topic[data-topic='tools'] {
+  --topic-image: url('/img/site/topic-tools.jpg');
+  --topic-position: center 43%;
+}
+
+.home-topic[data-topic='review'] {
+  --topic-image: url('/img/site/topic-review.jpg');
+  --topic-position: center 34%;
 }
 
 .home-topic-copy {
@@ -150,22 +161,24 @@
 }
 
 .home-topic-copy strong {
-  color: #203c32;
-  font-size: 1rem;
+  color: #fff;
+  font-size: 1.05rem;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.65);
 }
 
 .home-topic-copy small {
   margin-top: 3px;
   overflow: hidden;
-  color: #68766f;
+  color: rgba(255, 255, 255, 0.9);
   font-size: 0.78rem;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
 .home-topic-count {
-  color: #68766f;
+  color: #fff;
   font-size: 0.78rem;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.65);
   white-space: nowrap;
 }
 
@@ -303,7 +316,7 @@ figure.highlight {
   }
 
   .home-topic {
-    min-height: 76px;
+    min-height: 108px;
   }
 
   #recent-posts .recent-post-item,
