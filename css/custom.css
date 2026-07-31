@@ -17,10 +17,22 @@
 /* Keep text readable without overriding the theme's layout rules. */
 #web_bg {
   background-color: #eef3ef;
+  background-image: url("https://s41.ax1x.com/2025/12/15/pZQn4eO.jpg"), url("/img/site/background.jpg") !important;
+  background-position: center, center !important;
+  background-size: cover, cover !important;
 }
 
 #page-header {
   background-color: #385246 !important;
+  background-image: url("https://s41.ax1x.com/2025/12/15/pZQn4eO.jpg"), url("/img/site/background.jpg") !important;
+  background-position: center, center !important;
+  background-size: cover, cover !important;
+}
+
+#footer {
+  background-image: url("https://s41.ax1x.com/2025/12/15/pZQn4eO.jpg"), url("/img/site/background.jpg") !important;
+  background-position: center, center !important;
+  background-size: cover, cover !important;
 }
 
 #page-header.full_page {
