@@ -135,22 +135,22 @@
 }
 
 .home-topic[data-topic='algorithm'] {
-  --topic-image: url('/img/site/topic-algorithm.png');
+  --topic-image: url('https://raw.githubusercontent.com/768910-bit/768910-bit.github.io/main/img/site/topic-algorithm.png');
   --topic-position: center 24%;
 }
 
 .home-topic[data-topic='essay'] {
-  --topic-image: url('/img/site/topic-essay.jpg');
+  --topic-image: url('https://raw.githubusercontent.com/768910-bit/768910-bit.github.io/main/img/site/topic-essay.jpg');
   --topic-position: center 47%;
 }
 
 .home-topic[data-topic='tools'] {
-  --topic-image: url('/img/site/topic-tools.jpg');
+  --topic-image: url('https://raw.githubusercontent.com/768910-bit/768910-bit.github.io/main/img/site/topic-tools.jpg');
   --topic-position: center 43%;
 }
 
 .home-topic[data-topic='review'] {
-  --topic-image: url('/img/site/topic-review.jpg');
+  --topic-image: url('https://raw.githubusercontent.com/768910-bit/768910-bit.github.io/main/img/site/topic-review.jpg');
   --topic-position: center 34%;
 }
 
