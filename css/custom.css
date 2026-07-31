@@ -29,6 +29,14 @@
   max-height: 680px;
 }
 
+#page-header.full_page #site-title {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 0 24px;
+  font-size: 2rem;
+  line-height: 1.45;
+}
+
 #recent-posts .recent-post-item,
 #aside-content .card-widget,
 #post,
@@ -265,6 +273,13 @@ figure.highlight {
   #page-header.full_page {
     height: 64vh;
     min-height: 420px;
+  }
+
+  #page-header.full_page #site-title {
+    max-width: 340px;
+    padding: 0 16px;
+    font-size: 1.45rem;
+    line-height: 1.5;
   }
 
   #home-content {
