@@ -918,4 +918,192 @@
         <tag>高精度</tag>
       </tags>
   </entry>
+  <entry>
+    <title>并查集</title>
+    <url>/2026/09/11/%E5%B9%B6%E6%9F%A5%E9%9B%86/</url>
+    <content><![CDATA[<h1 id="并查集"><a href="#并查集" class="headerlink" title="并查集"></a>并查集</h1><h2 id="P1955-程序自动分析（并查集-离散化）"><a href="#P1955-程序自动分析（并查集-离散化）" class="headerlink" title="P1955 程序自动分析（并查集 + 离散化）"></a>P1955 程序自动分析（并查集 + 离散化）</h2><p><a href="https://www.luogu.com.cn/problem/P1955">P1955 [NOI2015] 程序自动分析 - 洛谷</a></p>
+<p><strong>并查集 + 离散化</strong>，和算法竞赛那本书的例题一模一样。</p>
+<p>思路：先建立并查集，把所有 <code>e == 1</code>（相等）的约束合并起来。因为还需要判断不相等的情况，所以得<strong>跑两轮</strong>——第二轮遇到 <code>e == 0</code> 且两个数已经在同一集合里，就说明前面的约束和它矛盾，直接 <code>break</code>。</p>
+<p>变量范围到 1e9 而约束只有 1e5 条，所以要先离散化，把出现过的数映射到 <code>1..m</code> 的连续编号上。</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="keyword">using</span> ll=<span class="type">long</span> <span class="type">long</span>;</span><br><span class="line"><span class="meta">#<span class="keyword">define</span> endl <span class="string">&#x27;\n&#x27;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">const</span> <span class="type">int</span> maxn=<span class="number">100005</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">Constraint</span>&#123;</span><br><span class="line">    <span class="type">int</span> x,y,e;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> fa[maxn*<span class="number">2</span>];</span><br><span class="line">vector&lt;<span class="type">int</span>&gt; nums;</span><br><span class="line">vector&lt;Constraint&gt; cons;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">init</span><span class="params">(<span class="type">int</span> n)</span></span>&#123;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=n;i++)&#123;</span><br><span class="line">        fa[i]=i;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">get</span><span class="params">(<span class="type">int</span> x)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(fa[x]==x) <span class="keyword">return</span> x;</span><br><span class="line">    <span class="keyword">return</span> fa[x]=<span class="built_in">get</span>(fa[x]);</span><br><span class="line">&#125;  <span class="comment">//查找+路径压缩</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">find_id</span><span class="params">(<span class="type">int</span> val)</span></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">lower_bound</span>(nums.<span class="built_in">begin</span>(),nums.<span class="built_in">end</span>(),val)-nums.<span class="built_in">begin</span>()<span class="number">+1</span>;</span><br><span class="line">&#125;  <span class="comment">//离散化</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">merge</span><span class="params">(<span class="type">int</span> x,<span class="type">int</span> y)</span></span>&#123;</span><br><span class="line">    fa[<span class="built_in">get</span>(x)]=<span class="built_in">get</span>(y);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">solve</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="type">int</span> n; cin&gt;&gt;n;</span><br><span class="line">    nums.<span class="built_in">clear</span>(); cons.<span class="built_in">clear</span>(); <span class="comment">//清空上组数据</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;n;i++)&#123;</span><br><span class="line">        <span class="type">int</span> x,y,e; cin&gt;&gt;x&gt;&gt;y&gt;&gt;e;</span><br><span class="line">        cons.<span class="built_in">push_back</span>(&#123;x,y,e&#125;);</span><br><span class="line">        nums.<span class="built_in">push_back</span>(x); nums.<span class="built_in">push_back</span>(y);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">sort</span>(nums.<span class="built_in">begin</span>(),nums.<span class="built_in">end</span>());</span><br><span class="line">    nums.<span class="built_in">erase</span>(<span class="built_in">unique</span>(nums.<span class="built_in">begin</span>(),nums.<span class="built_in">end</span>()),nums.<span class="built_in">end</span>());</span><br><span class="line">    <span class="comment">//去重+排序</span></span><br><span class="line"></span><br><span class="line">    <span class="type">int</span> m=nums.<span class="built_in">size</span>();</span><br><span class="line"></span><br><span class="line">    <span class="built_in">init</span>(m);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;n;i++)&#123;</span><br><span class="line">        <span class="keyword">if</span>(cons[i].e==<span class="number">1</span>)&#123;</span><br><span class="line">            <span class="type">int</span> id_x=<span class="built_in">find_id</span>(cons[i].x);</span><br><span class="line">            <span class="type">int</span> id_y=<span class="built_in">find_id</span>(cons[i].y);</span><br><span class="line">            <span class="built_in">merge</span>(id_x,id_y);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="type">bool</span> is_possi=<span class="literal">true</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;n;i++)&#123;</span><br><span class="line">        <span class="keyword">if</span>(cons[i].e==<span class="number">0</span>)&#123;</span><br><span class="line">            <span class="type">int</span> id_x=<span class="built_in">find_id</span>(cons[i].x);</span><br><span class="line">            <span class="type">int</span> id_y=<span class="built_in">find_id</span>(cons[i].y);</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span>(<span class="built_in">get</span>(id_x)==<span class="built_in">get</span>(id_y))&#123;</span><br><span class="line">                is_possi=<span class="literal">false</span>;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span>(is_possi) cout&lt;&lt;<span class="string">&quot;YES&quot;</span>&lt;&lt;endl;</span><br><span class="line">    <span class="keyword">else</span> cout&lt;&lt;<span class="string">&quot;NO&quot;</span>&lt;&lt;endl;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    ios::<span class="built_in">sync_with_stdio</span>(<span class="literal">false</span>); cin.<span class="built_in">tie</span>(<span class="number">0</span>);</span><br><span class="line">    <span class="type">int</span> t; cin&gt;&gt;t;</span><br><span class="line">    <span class="keyword">while</span>(t--)&#123;</span><br><span class="line">        <span class="built_in">solve</span>();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>这道题顺带学到的：</strong></p>
+<ul>
+<li><strong>去重方法</strong>：<code>sort</code> 之后 <code>nums.erase(unique(nums.begin(), nums.end()), nums.end())</code>，是离散化的标准起手式，之后就能直接用 <code>lower_bound</code> 定位。</li>
+<li><strong>多组数据要记得清空</strong>：<code>nums.clear(); cons.clear();</code> 放在 <code>solve()</code> 开头，别靠全局变量残留。注意 <code>fa</code> 数组不需要清空，因为 <code>init(m)</code> 会重新覆盖到 <code>m</code> 位。</li>
+<li><strong>两轮处理的顺序不能颠倒</strong>：必须先合并完所有相等关系，再检查不等关系，否则合并是「边检查边做」的，会漏判。</li>
+</ul>
+<h2 id="附：LeetCode-1353-最多可以参加的会议数目"><a href="#附：LeetCode-1353-最多可以参加的会议数目" class="headerlink" title="附：LeetCode 1353 最多可以参加的会议数目"></a>附：LeetCode 1353 最多可以参加的会议数目</h2><p><a href="https://leetcode.cn/problems/maximum-number-of-events-that-can-be-attended/description/">1353. 最多可以参加的会议数目 - 力扣</a></p>
+<p>这道题其实似乎用不到并查集，但是无伤大雅。</p>
+<p><strong>贪心 + 优先队列</strong>：优先参加结束时间相对早的会议，要不然后面来不及参加了。</p>
+<p><strong>怎么找到结束时间最早的会议？</strong> 用优先队列。<code>priority_queue</code> 的小根堆写法是笔者之前在做合并果子这道题的时候学的：</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">priority_queue&lt;<span class="type">int</span>,vector&lt;<span class="type">int</span>&gt;,greater&lt;<span class="type">int</span>&gt;&gt; q;</span><br></pre></td></tr></table></figure>
+
+<p>队列里只保存 <code>endDay</code>。按开始时间排序后，用 <code>day</code> 从左往右扫，每天把当天开始的会议全部入队，然后弹掉已经过期的（<code>q.top() &lt; day</code>），再取队首那个结束最早的参加掉——参加一场，<code>ans</code> 加一。</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="keyword">using</span> ll=<span class="type">long</span> <span class="type">long</span>;</span><br><span class="line"><span class="meta">#<span class="keyword">define</span> endl <span class="string">&#x27;\n&#x27;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    ios::<span class="built_in">sync_with_stdio</span>(<span class="literal">false</span>); cin.<span class="built_in">tie</span>(<span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">    <span class="type">int</span> n; cin&gt;&gt;n;</span><br><span class="line"></span><br><span class="line">    vector&lt;vector&lt;ll&gt;&gt; <span class="built_in">events</span>(n);</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;n;i++)&#123;</span><br><span class="line">        ll l,r; cin&gt;&gt;l&gt;&gt;r;</span><br><span class="line">        events[i]=&#123;l,r&#125;;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">sort</span>(events.<span class="built_in">begin</span>(),events.<span class="built_in">end</span>());</span><br><span class="line"></span><br><span class="line">    priority_queue&lt;<span class="type">int</span>,vector&lt;<span class="type">int</span>&gt;,greater&lt;<span class="type">int</span>&gt;&gt; q;</span><br><span class="line">    <span class="type">int</span> i=<span class="number">0</span>;</span><br><span class="line">    <span class="type">int</span> day=<span class="number">1</span>;</span><br><span class="line">    <span class="type">int</span> ans=<span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span>(i&lt;n || !q.<span class="built_in">empty</span>())&#123;</span><br><span class="line">        <span class="keyword">while</span>(i&lt;n &amp;&amp; events[i][<span class="number">0</span>]==day)&#123;</span><br><span class="line">            q.<span class="built_in">push</span>(events[i][<span class="number">1</span>]);</span><br><span class="line">            i++;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span>(!q.<span class="built_in">empty</span>()&amp;&amp; q.<span class="built_in">top</span>()&lt;day) q.<span class="built_in">pop</span>();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span>(!q.<span class="built_in">empty</span>())&#123;</span><br><span class="line">            q.<span class="built_in">pop</span>();</span><br><span class="line">            ans++;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        day++;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    cout&lt;&lt;ans&lt;&lt;endl;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ul>
+<li><strong>并查集的核心</strong>是 <code>get</code> 的路径压缩和 <code>merge</code> 的方向，模板本身很短，难点在于<strong>看出题目里的「等价关系」</strong>。</li>
+<li>一旦值域大而数据量小，先想<strong>离散化</strong>；<code>sort + unique + lower_bound</code> 是固定套路。</li>
+<li>需要判断「不相等」时，<strong>先合并全部相等、再统一检查不等</strong>，两轮走。</li>
+<li>小根堆 <code>priority_queue&lt;int,vector&lt;int&gt;,greater&lt;int&gt;&gt;</code> 是「每次取最小」场景的通用工具，贪心题里出现频率极高。</li>
+</ul>
+]]></content>
+      <categories>
+        <category>算法与竞赛</category>
+      </categories>
+      <tags>
+        <tag>洛谷</tag>
+        <tag>贪心</tag>
+        <tag>并查集</tag>
+        <tag>离散化</tag>
+        <tag>优先队列</tag>
+        <tag>LeetCode</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>打表</title>
+    <url>/2026/09/09/%E6%89%93%E8%A1%A8/</url>
+    <content><![CDATA[<h1 id="打表（方法论，不是独立算法）"><a href="#打表（方法论，不是独立算法）" class="headerlink" title="打表（方法论，不是独立算法）"></a>打表（方法论，不是独立算法）</h1><blockquote>
+<p>打表几乎不会单独出成「打表专题」，它是个解题工具，嵌在博弈论、数论、递推找规律里。<br><strong>不要为打表单独开一堆题单去刷</strong>，而是养成习惯：遇到卡住的题，先写暴力打表观察。</p>
+</blockquote>
+<h2 id="先分清「打表」到底指哪种"><a href="#先分清「打表」到底指哪种" class="headerlink" title="先分清「打表」到底指哪种"></a>先分清「打表」到底指哪种</h2><table>
+<thead>
+<tr>
+<th align="left">类型</th>
+<th align="left">是什么</th>
+<th align="left">要不要练</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><strong>打表找规律</strong>（核心）</td>
+<td align="left">本地暴力跑小数据 → 打印序列&#x2F;矩阵 → 观察周期、二进制、递推 → 猜公式 → 证明&#x2F;对拍</td>
+<td align="left">真正要练的</td>
+</tr>
+<tr>
+<td align="left"><strong>分段打表</strong></td>
+<td align="left">范围太大（如 1e18 + 取模）跑不完存不下 → 暴力每 K 个取代表点嵌代码，再快速跳</td>
+<td align="left">数论技巧，进阶</td>
+</tr>
+<tr>
+<td align="left"><strong>真·离线打表</strong></td>
+<td align="left">答案表直接嵌进代码硬输出</td>
+<td align="left">一般只在答案种类极少时 OJ 放行，不是出题人想考的</td>
+</tr>
+<tr>
+<td align="left"><strong>伪·打表</strong>（常混淆）</td>
+<td align="left">前缀和、线性筛这类「预处理数组」</td>
+<td align="left">这是标准空间换时间算法，<strong>不叫打表</strong>，别归错类</td>
+</tr>
+</tbody></table>
+<h2 id="找规律的标准流程"><a href="#找规律的标准流程" class="headerlink" title="找规律的标准流程"></a>找规律的标准流程</h2><ol>
+<li><strong>暴力先保证正确</strong> —— 暴力错了后面全白搭。</li>
+<li><strong>表要打得够大</strong> —— 很多规律在小表下成立、扩大就崩（CF1906G 就是反例）。猜完必须<strong>对拍更大范围</strong>验证，不能打出就收。</li>
+<li><strong>观察维度别只看数值</strong>：最常藏规律的是<ul>
+<li>二进制：末尾连续 0 &#x2F; lowbit &#x2F; 或、异或、与的结果</li>
+<li>奇偶分治</li>
+<li>周期长度（循环节）</li>
+<li>与 n 的关系、相邻差</li>
+</ul>
+</li>
+<li><strong>落地常常还要优化</strong>：找到公式后往往要配 <code>O(log)</code>&#x2F;<code>O(1)</code>，甚至大数（bitset），不是打印出来就行。</li>
+<li><strong>检验标准不是 AC</strong>，而是：<em>能不能讲清为什么是这个规律？换参数还成立吗？</em></li>
+</ol>
+<h2 id="刷题路线（易-→-难）"><a href="#刷题路线（易-→-难）" class="headerlink" title="刷题路线（易 → 难）"></a>刷题路线（易 → 难）</h2><ol>
+<li><strong>洛谷 UVA1482 — Playing With Stones</strong>（入门）—— 取石子，<code>SG(n)</code>：偶数 <code>=n/2</code>，奇数 <code>=SG(n/2)</code>。「打表 → 猜 → 证」最标准的样板题。<br><a href="https://www.luogu.com.cn/problem/UVA1482">UVA1482</a></li>
+<li><strong>洛谷 P2148 [SDOI2009] E&amp;D</strong>（中等）—— SG 经典题，每对石子是独立游戏。打表后规律藏在<strong>二进制</strong>里（<code>(i-1)|(j-1)</code> 的最低 0 位）。做完基本掌握「SG + 打表找规律」套路。<br><a href="https://www.luogu.com.cn/problem/P2148">P2148 E&amp;D</a></li>
+<li><strong>洛谷 P2594 染色游戏</strong>（进阶）—— 二维翻硬币 SG 打表，出 lowbit &#x2F; 2 的幂规律，还带大数（bitset）处理。<br><a href="https://www.luogu.com.cn/problem/P2594">P2594 染色游戏</a></li>
+<li><strong>CF1906G — Grid Game 2</strong>（偏难，进阶练手）—— 专治「小表规律是假象」，反复 hack 自己的猜想。<br><a href="https://codeforces.com/problemset/problem/1906/G">CF1906G</a></li>
+</ol>
+<h2 id="使用建议"><a href="#使用建议" class="headerlink" title="使用建议"></a>使用建议</h2><ul>
+<li>打表找规律<strong>跟着博弈论（SG 专题）一起学</strong>，别孤立地练。</li>
+<li>标准动作：做博弈题先暴力打 SG 表 → 找周期&#x2F;二进制规律 → 再想证明。</li>
+<li>归档时这一篇挂在博弈&#x2F;数论的方法论下更合适，别当独立算法收藏。</li>
+</ul>
+]]></content>
+      <categories>
+        <category>算法与竞赛</category>
+      </categories>
+      <tags>
+        <tag>打表</tag>
+        <tag>找规律</tag>
+        <tag>博弈论</tag>
+        <tag>SG函数</tag>
+        <tag>数论</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>拓扑排序</title>
+    <url>/2026/09/09/%E6%8B%93%E6%89%91%E6%8E%92%E5%BA%8F/</url>
+    <content><![CDATA[<h1 id="拓扑排序"><a href="#拓扑排序" class="headerlink" title="拓扑排序"></a>拓扑排序</h1><blockquote>
+<p>拓扑序 &#x3D; <strong>DAG 的线性化</strong>：把「u 在 v 前」的偏序展平成一条链。<br>所以只有 DAG 才有拓扑序。<strong>队列弹出数 &lt; n ⇒ 有环</strong> —— 判环万能判据。</p>
+</blockquote>
+<h2 id="底层认识与模板要点"><a href="#底层认识与模板要点" class="headerlink" title="底层认识与模板要点"></a>底层认识与模板要点</h2><ul>
+<li>默认用 <strong>Kahn（队列 + 入度删边）</strong>，3 分钟内要能不用查板敲出来；DFS 三色法只在特殊递归场景再用。</li>
+<li>拓扑排序难点从来不在排序本身，而在<strong>建图</strong>（把题意的大&#x2F;小、先&#x2F;后、依赖抽象成有向边）+ <strong>拓扑序上跑 DP</strong>（拓扑遍历顺序天然保证无后效，是 DAG 上 DP 的「盾」）。</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">// Kahn 模板骨架</span></span><br><span class="line">queue&lt;<span class="type">int</span>&gt; q; <span class="keyword">for</span> (i) <span class="keyword">if</span> (!ind[i]) q.<span class="built_in">push</span>(i);</span><br><span class="line"><span class="type">int</span> cnt = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">while</span> (!q.<span class="built_in">empty</span>()) &#123;</span><br><span class="line">    <span class="type">int</span> u = q.<span class="built_in">front</span>(); q.<span class="built_in">pop</span>(); cnt++;</span><br><span class="line">    <span class="keyword">for</span> (v : e[u]) <span class="keyword">if</span> (--ind[v] == <span class="number">0</span>) q.<span class="built_in">push</span>(v);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// cnt &lt; n ⇒ 有环</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="三层学习路径"><a href="#三层学习路径" class="headerlink" title="三层学习路径"></a>三层学习路径</h2><ol>
+<li>会敲模板 + 判环</li>
+<li>会<strong>隐式建图</strong>（约 60% 拓扑题目的真正考点）</li>
+<li>拓扑序上叠 <strong>DP &#x2F; 贪心（堆）&#x2F; 分层处理</strong></li>
+</ol>
+<h2 id="P1347-排序"><a href="#P1347-排序" class="headerlink" title="P1347 排序"></a>P1347 排序</h2><p><a href="https://www.luogu.com.cn/problem/P1347">P1347 [ECNA 2001] 排序 - 洛谷</a></p>
+<p>这道题就是边排序边判断，其他都可以套模板。每读入一条关系就重跑一遍拓扑，返回三种状态：</p>
+<ul>
+<li><code>-1</code>：弹出点数 <code>cnt &lt; n</code>，说明有环，矛盾；</li>
+<li><code>1</code>：<code>cnt == n</code> 且队列<strong>任何时刻都只有一个元素</strong>（<code>sure</code> 没被置 false），说明拓扑序唯一，可以确定；</li>
+<li><code>0</code>：能排完但不唯一，信息不足，继续加关系。</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line">vector&lt;<span class="type">int</span>&gt; g[<span class="number">30</span>];</span><br><span class="line"><span class="type">int</span> indeg[<span class="number">30</span>];</span><br><span class="line"><span class="type">int</span> n,m;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">sort</span><span class="params">(<span class="type">int</span>&amp; orderCount,string&amp; orderStr)</span></span>&#123;</span><br><span class="line">    <span class="type">int</span> tmpIndeg[<span class="number">30</span>];</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;n;i++) tmpIndeg[i]=indeg[i];</span><br><span class="line"></span><br><span class="line">    queue&lt;<span class="type">int</span>&gt; q;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;n;i++)&#123;</span><br><span class="line">        <span class="keyword">if</span>(tmpIndeg[i]==<span class="number">0</span>) q.<span class="built_in">push</span>(i);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="type">int</span> cnt=<span class="number">0</span>;</span><br><span class="line">    <span class="type">bool</span> sure=<span class="literal">true</span>;</span><br><span class="line">    string res=<span class="string">&quot;&quot;</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span>(!q.<span class="built_in">empty</span>())&#123;</span><br><span class="line">        <span class="keyword">if</span>(q.<span class="built_in">size</span>()&gt;<span class="number">1</span>) sure=<span class="literal">false</span>;</span><br><span class="line">        <span class="type">int</span> u=q.<span class="built_in">front</span>(); q.<span class="built_in">pop</span>();</span><br><span class="line">        res.<span class="built_in">push_back</span>(<span class="built_in">char</span>(<span class="string">&#x27;A&#x27;</span>+u));</span><br><span class="line">        cnt++;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> v:g[u])&#123;</span><br><span class="line">            tmpIndeg[v]--;</span><br><span class="line">            <span class="keyword">if</span>(tmpIndeg[v]==<span class="number">0</span>) q.<span class="built_in">push</span>(v);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    orderCount=cnt; orderStr=res;</span><br><span class="line">    <span class="keyword">if</span>(cnt&lt;n) <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">    <span class="keyword">if</span>(sure &amp;&amp; cnt==n) <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    ios::<span class="built_in">sync_with_stdio</span>(<span class="literal">false</span>); cin.<span class="built_in">tie</span>(<span class="number">0</span>);</span><br><span class="line">    cin&gt;&gt;n&gt;&gt;m;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;m;i++)&#123;</span><br><span class="line">        string s; cin&gt;&gt;s;</span><br><span class="line">        <span class="type">int</span> u=s[<span class="number">0</span>]-<span class="string">&#x27;A&#x27;</span>;</span><br><span class="line">        <span class="type">int</span> v=s[<span class="number">2</span>]-<span class="string">&#x27;A&#x27;</span>;</span><br><span class="line">        g[u].<span class="built_in">push_back</span>(v);</span><br><span class="line">        indeg[v]++;</span><br><span class="line"></span><br><span class="line">        <span class="type">int</span> cnt;</span><br><span class="line">        string order;</span><br><span class="line">        <span class="type">int</span> status=<span class="built_in">sort</span>(cnt,order);</span><br><span class="line">        <span class="keyword">if</span>(status==<span class="number">1</span>)&#123;</span><br><span class="line">            cout &lt;&lt; <span class="string">&quot;Sorted sequence determined after &quot;</span> &lt;&lt; i + <span class="number">1</span> &lt;&lt; <span class="string">&quot; relations: &quot;</span> &lt;&lt; order &lt;&lt; <span class="string">&quot;.&quot;</span> &lt;&lt; endl;</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span>(status==<span class="number">-1</span>)&#123;</span><br><span class="line">            cout &lt;&lt; <span class="string">&quot;Inconsistency found after &quot;</span> &lt;&lt; i + <span class="number">1</span> &lt;&lt; <span class="string">&quot; relations.&quot;</span> &lt;&lt; endl;</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    cout&lt;&lt;<span class="string">&quot;Sorted sequence cannot be determined.&quot;</span> &lt;&lt; endl;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>易错点</strong>：每次重跑拓扑时要用副本 <code>tmpIndeg</code>，不能直接改原入度数组，否则下一轮就崩了。</p>
+<h2 id="P1137-旅行计划"><a href="#P1137-旅行计划" class="headerlink" title="P1137 旅行计划"></a>P1137 旅行计划</h2><p><a href="https://www.luogu.com.cn/problem/P1137">P1137 旅行计划 - 洛谷</a></p>
+<p>这道题参杂了一点点 dp，因为最大城市数取决于之前的情况，走过的岔路口肯定要判断一下怎么走最优。</p>
+<p>把入度为 0 的点（起点）<code>dp</code> 初始化成 1，然后在 Kahn 的松弛过程中转移：<code>dp[v] = max(dp[v], dp[u] + 1)</code>。因为队列弹出的顺序天然是拓扑序，转移到 <code>v</code> 时它的所有前驱都已经算完了，不会出现后效性。</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="meta">#<span class="keyword">define</span> endl <span class="string">&#x27;\n&#x27;</span></span></span><br><span class="line"><span class="keyword">using</span> ll=<span class="type">long</span> <span class="type">long</span>;</span><br><span class="line"><span class="type">const</span> <span class="type">int</span> maxn=<span class="number">200005</span>;</span><br><span class="line"></span><br><span class="line">vector&lt;<span class="type">int</span>&gt; g[maxn];</span><br><span class="line"><span class="type">int</span> indeg[maxn];</span><br><span class="line"><span class="type">int</span> dp[maxn];</span><br><span class="line"><span class="type">int</span> n,m;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    ios::<span class="built_in">sync_with_stdio</span>(<span class="literal">false</span>); cin.<span class="built_in">tie</span>(<span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">    cin&gt;&gt;n&gt;&gt;m;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;m;i++)&#123;</span><br><span class="line">        <span class="type">int</span> x,y; cin&gt;&gt;x&gt;&gt;y;</span><br><span class="line">        g[x].<span class="built_in">push_back</span>(y);</span><br><span class="line">        indeg[y]++;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    queue&lt;<span class="type">int</span>&gt; q;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=n;i++)&#123;</span><br><span class="line">        <span class="keyword">if</span>(indeg[i]==<span class="number">0</span>)&#123;</span><br><span class="line">            q.<span class="built_in">push</span>(i);</span><br><span class="line">            dp[i]=<span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span>(!q.<span class="built_in">empty</span>())&#123;</span><br><span class="line">        <span class="type">int</span> u=q.<span class="built_in">front</span>();</span><br><span class="line">        q.<span class="built_in">pop</span>();</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> v:g[u])&#123;</span><br><span class="line">            dp[v]=<span class="built_in">max</span>(dp[v],dp[u]<span class="number">+1</span>);</span><br><span class="line">            indeg[v]--;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span>(indeg[v]==<span class="number">0</span>) q.<span class="built_in">push</span>(v);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=n;i++)&#123;</span><br><span class="line">        cout&lt;&lt;dp[i]&lt;&lt;endl;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="P4017-最大食物链计数"><a href="#P4017-最大食物链计数" class="headerlink" title="P4017 最大食物链计数"></a>P4017 最大食物链计数</h2><p><a href="https://www.luogu.com.cn/problem/P4017">P4017 最大食物链计数 - 洛谷</a></p>
+<p>也就是求一共有几条生物链，最大的意思就是从生产者到最顶端的消费者，路径 dp 取模。</p>
+<p>和上一题是同一个骨架，区别在于转移从取 <code>max</code> 变成累加计数：</p>
+<ul>
+<li>起点（入度 0，即生产者）<code>dp[i] = 1</code>；</li>
+<li>转移 <code>dp[v] = (dp[v] + dp[u]) % mod</code>；</li>
+<li>答案不再是所有点求和，而是<strong>只累加出度为 0 的点</strong>（<code>g[i].empty()</code>，即食物链顶端）。</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="keyword">using</span> ll=<span class="type">long</span> <span class="type">long</span>;</span><br><span class="line"><span class="meta">#<span class="keyword">define</span> endl <span class="string">&#x27;\n&#x27;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">const</span> <span class="type">int</span> mod=<span class="number">80112002</span>;</span><br><span class="line"><span class="type">const</span> <span class="type">int</span> maxn=<span class="number">500005</span>;</span><br><span class="line"></span><br><span class="line">vector&lt;<span class="type">int</span>&gt; g[maxn];</span><br><span class="line"><span class="type">int</span> indeg[maxn];</span><br><span class="line">ll dp[maxn];</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    ios::<span class="built_in">sync_with_stdio</span>(<span class="literal">false</span>); cin.<span class="built_in">tie</span>(<span class="number">0</span>);</span><br><span class="line">    <span class="type">int</span> n,m; cin&gt;&gt;n&gt;&gt;m;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;m;i++)&#123;</span><br><span class="line">        <span class="type">int</span> a,b; cin&gt;&gt;a&gt;&gt;b;</span><br><span class="line">        g[a].<span class="built_in">push_back</span>(b);</span><br><span class="line">        indeg[b]++;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    queue&lt;<span class="type">int</span>&gt; q;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=n;i++)&#123;</span><br><span class="line">        <span class="keyword">if</span>(indeg[i]==<span class="number">0</span>)&#123;</span><br><span class="line">            q.<span class="built_in">push</span>(i);</span><br><span class="line">            dp[i]=<span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span>(!q.<span class="built_in">empty</span>())&#123;</span><br><span class="line">        <span class="type">int</span> u=q.<span class="built_in">front</span>(); q.<span class="built_in">pop</span>();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> v:g[u])&#123;</span><br><span class="line">            dp[v]=(dp[v]+dp[u])%mod; <span class="comment">//算路径</span></span><br><span class="line">            indeg[v]--;</span><br><span class="line">            <span class="keyword">if</span>(indeg[v]==<span class="number">0</span>) q.<span class="built_in">push</span>(v);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    ll ans=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=n;i++)&#123;</span><br><span class="line">        <span class="keyword">if</span>(g[i].<span class="built_in">empty</span>())&#123;  <span class="comment">//g[i]出度为零，证明是食物链顶端</span></span><br><span class="line">            ans=(ans+dp[i])%mod;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    cout&lt;&lt;ans&lt;&lt;endl;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="刷题路线（洛谷-→-CF，难度递增）"><a href="#刷题路线（洛谷-→-CF，难度递增）" class="headerlink" title="刷题路线（洛谷 → CF，难度递增）"></a>刷题路线（洛谷 → CF，难度递增）</h2><h3 id="洛谷"><a href="#洛谷" class="headerlink" title="洛谷"></a>洛谷</h3><ol>
+<li><strong>P1137 旅行计划</strong> —— Kahn 模板 + 每点最长路，最干净的骨架题。<br><a href="https://www.luogu.com.cn/problem/P1137">P1137 旅行计划</a></li>
+<li><strong>P4017 最大食物链计数</strong> —— 拓扑 + 路径计数 DP（取模），体会「拓扑顺序保证无后效」。<br><a href="https://www.luogu.com.cn/problem/P4017">P4017 最大食物链计数</a></li>
+<li><strong>P1113 杂务</strong> —— 拓扑 + DP，<code>dp[v] = max(dp[前驱]) + w</code>，练 DAG 最长路手感。<br><a href="https://www.luogu.com.cn/problem/P1113">P1113 杂务</a></li>
+<li><strong>P1347 排序</strong> —— 经典入门，每加一条约束重跑一次拓扑，练「环 &#x2F; 唯一拓扑序 &#x2F; 信息不足」三分支判断。<br><a href="https://www.luogu.com.cn/problem/P1347">P1347 排序</a></li>
+<li><strong>P1038 神经网络</strong> —— 拓扑 + 模拟（较老）。<br><a href="https://www.luogu.com.cn/problem/P1038">P1038 神经网络</a></li>
+<li><strong>P1983 车站分级</strong>（提高+&#x2F;省选−，<strong>建模收获最大</strong>）—— 建边：把「未停靠站 → 停靠站」抽成级别关系。<br>坑：<strong>重边要 vis 去重</strong>（不然 MLE）、建边可能 O(n²) 需考虑虚点优化。<br><a href="https://www.luogu.com.cn/problem/P1983">P1983 车站分级</a></li>
+</ol>
+<h3 id="CF"><a href="#CF" class="headerlink" title="CF"></a>CF</h3><ol start="7">
+<li><strong>CF 510C — Fox And Names</strong>（≈1500）—— 字典序排序的字符串反推<strong>字符先后关系图</strong>再判环输出，「从排序关系建偏序图」的鼻祖，CF 拓扑入门第一题。<br><a href="https://codeforces.com/problemset/problem/510/C">CF 510C</a></li>
+<li><strong>CF 1385E — Directing Edges</strong>（≈1700）—— 给无向边定向成 DAG。要点：<strong>任何一版合法拓扑序都能用来定向</strong>（小的往大的连），理解「拓扑序 &#x3D; 偏序线性化」。<br><a href="https://codeforces.com/problemset/problem/1385/E">CF 1385E</a></li>
+<li><strong>CF 825E — Minimal Labels</strong>（≈1700–1800）—— 字典序最小重标号，<strong>反直觉</strong>：贪心方向通常要反过来（倒着放）。先交一版「正向小根堆」的错误代码体会坑。<code>priority_queue</code> + 拓扑，非常推荐做。<br><a href="https://codeforces.com/problemset/problem/825/E">CF 825E</a></li>
+<li><strong>CF 1572A — Book</strong>（≈1900）—— 按「读书轮数」分批读章节，前置必须<strong>上一轮</strong>读完，按拓扑的「层」处理。卡补题难度带。<br><a href="https://codeforces.com/problemset/problem/1572/A">CF 1572A Book</a></li>
+</ol>
+<h2 id="建议顺序"><a href="#建议顺序" class="headerlink" title="建议顺序"></a>建议顺序</h2><p><strong>洛谷 P1137 → P4017 → P1113 → P1347 → CF510C → P1983 → CF1385E → CF825E → CF1572A</strong></p>
+<ul>
+<li>入门打底：P1347 &#x2F; P1113 &#x2F; P4017</li>
+<li>建图思维进阶：P1983（车站分级）最值得</li>
+<li>CF 里 <strong>CF825E</strong> 正好对应 <code>priority_queue + indegree</code> 的反直觉点，做完可以带自己手推一遍</li>
+</ul>
+]]></content>
+      <categories>
+        <category>算法与竞赛</category>
+      </categories>
+      <tags>
+        <tag>洛谷</tag>
+        <tag>动态规划</tag>
+        <tag>图论</tag>
+        <tag>拓扑排序</tag>
+        <tag>Codeforces</tag>
+      </tags>
+  </entry>
 </search>

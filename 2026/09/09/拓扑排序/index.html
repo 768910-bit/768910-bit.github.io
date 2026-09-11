@@ -1,0 +1,383 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>拓扑排序 | 竹见</title><meta name="author" content="Bamboo_ming"><meta name="copyright" content="Bamboo_ming"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="拓扑序 &#x3D; DAG 的线性化，「队列弹出数 &lt; n 即有环」是判环的万能判据。从 Kahn 模板、隐式建图到拓扑序上跑 DP 三层递进，含洛谷 P1347、P1137、P4017 三道题解与洛谷→CF 十题刷题路线。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="拓扑排序">
+<meta property="og:url" content="https://768910-bit.github.io/2026/09/09/%E6%8B%93%E6%89%91%E6%8E%92%E5%BA%8F/index.html">
+<meta property="og:site_name" content="竹见">
+<meta property="og:description" content="拓扑序 &#x3D; DAG 的线性化，「队列弹出数 &lt; n 即有环」是判环的万能判据。从 Kahn 模板、隐式建图到拓扑序上跑 DP 三层递进，含洛谷 P1347、P1137、P4017 三道题解与洛谷→CF 十题刷题路线。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://768910-bit.github.io/img/site/avatar.jpg">
+<meta property="article:published_time" content="2026-09-09T14:17:00.000Z">
+<meta property="article:modified_time" content="2026-09-09T14:17:00.000Z">
+<meta property="article:author" content="Bamboo_ming">
+<meta property="article:tag" content="Codeforces">
+<meta property="article:tag" content="动态规划">
+<meta property="article:tag" content="图论">
+<meta property="article:tag" content="拓扑排序">
+<meta property="article:tag" content="洛谷">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://768910-bit.github.io/img/site/avatar.jpg"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "拓扑排序",
+  "url": "https://768910-bit.github.io/2026/09/09/%E6%8B%93%E6%89%91%E6%8E%92%E5%BA%8F/",
+  "image": "https://768910-bit.github.io/img/site/avatar.jpg",
+  "datePublished": "2026-09-09T14:17:00.000Z",
+  "dateModified": "2026-09-09T14:17:00.000Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "Bamboo_ming",
+      "url": "https://768910-bit.github.io"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://768910-bit.github.io/2026/09/09/%E6%8B%93%E6%89%91%E6%8E%92%E5%BA%8F/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><meta/><link rel="stylesheet" href="/css/index.css?v=5.5.3"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.1.0/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"pagination":{"enable":false,"hitsPerPage":8},"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.12.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '拓扑排序',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><style>
+* { text-shadow: none !important; }
+  /* 白色文章卡片 */
+  #article-container {
+    background: white !important;
+    color: #222222 !important;
+    padding: 45px !important;
+    margin: 40px auto !important;
+    border-radius: 18px !important;
+    max-width: 900px !important;
+    width: 85% !important;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.12) !important;
+    border: 1px solid rgba(0,0,0,0.06) !important;
+  }
+  
+  /* 文章内容文字 */
+  #article-container p {
+    color: #444444 !important;
+    line-height: 1.8 !important;
+    margin: 15px 0 !important;
+    font-size: 1.1em !important;
+  }
+  
+  /* 文章标题 */
+  #article-container h1.post-title,
+  #article-container h1 {
+    color: #111111 !important;
+    font-size: 2.5em !important;
+    margin: 0 0 30px 0 !important;
+    text-align: center !important;
+  }
+  
+  #article-container h2 {
+    color: #222222 !important;
+    font-size: 2em !important;
+    margin: 25px 0 15px 0 !important;
+    border-bottom: 2px solid #f0f0f0 !important;
+    padding-bottom: 10px !important;
+  }
+  
+  #article-container h3 {
+    color: #333333 !important;
+    font-size: 1.6em !important;
+    margin: 20px 0 10px 0 !important;
+  }
+  
+  /* 代码块 */
+  #article-container pre,
+  #article-container figure.highlight {
+    background: #f6f8fa !important;
+    color: #24292e !important;
+    border: 1px solid #e1e4e8 !important;
+    border-radius: 8px !important;
+    padding: 20px !important;
+    margin: 20px 0 !important;
+  }
+  
+  /* 行内代码 */
+  #article-container code:not([class*="language-"]) {
+    background: #f6f8fa !important;
+    color: #d63384 !important;
+    border: 1px solid #e9ecef !important;
+    border-radius: 4px !important;
+    padding: 2px 6px !important;
+  }
+  
+  /* 保持首页文章黑色背景（不影响首页） */
+  .recent-post-item {
+    background: rgba(0,0,0,0.6) !important;
+    color: white !important;
+    backdrop-filter: blur(12px) !important;
+    border: 2px solid rgba(255,255,255,0.2) !important;
+  }
+  
+  /* 响应式 */
+  @media (max-width: 768px) {
+    #article-container {
+      width: 92% !important;
+      padding: 25px !important;
+      margin: 20px auto !important;
+      border-radius: 12px !important;
+    }
+  }
+</style>
+<link rel="stylesheet" href="/css/custom.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6/css/all.min.css"><meta name="generator" content="Hexo 8.1.1"></head><body><div class="bg-animation" id="web_bg" style="background-image: url(https://s41.ax1x.com/2025/12/15/pZQn4eO.jpg);"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/site/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">22</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">30</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-folder"></i><span> 分类</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/categories/%E7%AE%97%E6%B3%95%E4%B8%8E%E7%AB%9E%E8%B5%9B/"><i class="fa-fw fas fa-code"></i><span> 算法与竞赛</span></a></li><li><a class="site-page child" href="/categories/%E9%9A%8F%E7%AC%94%E4%B8%8E%E7%94%9F%E6%B4%BB/"><i class="fa-fw fas fa-pen-nib"></i><span> 随笔与生活</span></a></li><li><a class="site-page child" href="/categories/%E5%B7%A5%E5%85%B7%E4%B8%8E%E7%8E%AF%E5%A2%83/"><i class="fa-fw fas fa-screwdriver-wrench"></i><span> 工具与环境</span></a></li><li><a class="site-page child" href="/categories/%E5%BD%B1%E8%AF%84%E4%B8%8E%E9%98%85%E8%AF%BB/"><i class="fa-fw fas fa-book-open"></i><span> 影评与阅读</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-layer-group"></i><span> 全部分类</span></a></li></ul></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(https://s41.ax1x.com/2025/12/15/pZQn4eO.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">竹见</span></a><a class="nav-page-title" href="/"><span class="site-name">拓扑排序</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-folder"></i><span> 分类</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/categories/%E7%AE%97%E6%B3%95%E4%B8%8E%E7%AB%9E%E8%B5%9B/"><i class="fa-fw fas fa-code"></i><span> 算法与竞赛</span></a></li><li><a class="site-page child" href="/categories/%E9%9A%8F%E7%AC%94%E4%B8%8E%E7%94%9F%E6%B4%BB/"><i class="fa-fw fas fa-pen-nib"></i><span> 随笔与生活</span></a></li><li><a class="site-page child" href="/categories/%E5%B7%A5%E5%85%B7%E4%B8%8E%E7%8E%AF%E5%A2%83/"><i class="fa-fw fas fa-screwdriver-wrench"></i><span> 工具与环境</span></a></li><li><a class="site-page child" href="/categories/%E5%BD%B1%E8%AF%84%E4%B8%8E%E9%98%85%E8%AF%BB/"><i class="fa-fw fas fa-book-open"></i><span> 影评与阅读</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-layer-group"></i><span> 全部分类</span></a></li></ul></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">拓扑排序</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="fa-fw post-meta-icon far fa-calendar-alt"></i><span class="post-meta-label">发表于</span><time datetime="2026-09-09T14:17:00.000Z" title="发表于 2026-09-09 22:17:00">2026-09-09</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E7%AE%97%E6%B3%95%E4%B8%8E%E7%AB%9E%E8%B5%9B/">算法与竞赛</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h1 id="拓扑排序"><a href="#拓扑排序" class="headerlink" title="拓扑排序"></a>拓扑排序</h1><blockquote>
+<p>拓扑序 &#x3D; <strong>DAG 的线性化</strong>：把「u 在 v 前」的偏序展平成一条链。<br>所以只有 DAG 才有拓扑序。<strong>队列弹出数 &lt; n ⇒ 有环</strong> —— 判环万能判据。</p>
+</blockquote>
+<h2 id="底层认识与模板要点"><a href="#底层认识与模板要点" class="headerlink" title="底层认识与模板要点"></a>底层认识与模板要点</h2><ul>
+<li>默认用 <strong>Kahn（队列 + 入度删边）</strong>，3 分钟内要能不用查板敲出来；DFS 三色法只在特殊递归场景再用。</li>
+<li>拓扑排序难点从来不在排序本身，而在<strong>建图</strong>（把题意的大&#x2F;小、先&#x2F;后、依赖抽象成有向边）+ <strong>拓扑序上跑 DP</strong>（拓扑遍历顺序天然保证无后效，是 DAG 上 DP 的「盾」）。</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Kahn 模板骨架</span></span><br><span class="line">queue&lt;<span class="type">int</span>&gt; q; <span class="keyword">for</span> (i) <span class="keyword">if</span> (!ind[i]) q.<span class="built_in">push</span>(i);</span><br><span class="line"><span class="type">int</span> cnt = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">while</span> (!q.<span class="built_in">empty</span>()) &#123;</span><br><span class="line">    <span class="type">int</span> u = q.<span class="built_in">front</span>(); q.<span class="built_in">pop</span>(); cnt++;</span><br><span class="line">    <span class="keyword">for</span> (v : e[u]) <span class="keyword">if</span> (--ind[v] == <span class="number">0</span>) q.<span class="built_in">push</span>(v);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// cnt &lt; n ⇒ 有环</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="三层学习路径"><a href="#三层学习路径" class="headerlink" title="三层学习路径"></a>三层学习路径</h2><ol>
+<li>会敲模板 + 判环</li>
+<li>会<strong>隐式建图</strong>（约 60% 拓扑题目的真正考点）</li>
+<li>拓扑序上叠 <strong>DP &#x2F; 贪心（堆）&#x2F; 分层处理</strong></li>
+</ol>
+<h2 id="P1347-排序"><a href="#P1347-排序" class="headerlink" title="P1347 排序"></a>P1347 排序</h2><p><a target="_blank" rel="noopener" href="https://www.luogu.com.cn/problem/P1347">P1347 [ECNA 2001] 排序 - 洛谷</a></p>
+<p>这道题就是边排序边判断，其他都可以套模板。每读入一条关系就重跑一遍拓扑，返回三种状态：</p>
+<ul>
+<li><code>-1</code>：弹出点数 <code>cnt &lt; n</code>，说明有环，矛盾；</li>
+<li><code>1</code>：<code>cnt == n</code> 且队列<strong>任何时刻都只有一个元素</strong>（<code>sure</code> 没被置 false），说明拓扑序唯一，可以确定；</li>
+<li><code>0</code>：能排完但不唯一，信息不足，继续加关系。</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line">vector&lt;<span class="type">int</span>&gt; g[<span class="number">30</span>];</span><br><span class="line"><span class="type">int</span> indeg[<span class="number">30</span>];</span><br><span class="line"><span class="type">int</span> n,m;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">sort</span><span class="params">(<span class="type">int</span>&amp; orderCount,string&amp; orderStr)</span></span>&#123;</span><br><span class="line">    <span class="type">int</span> tmpIndeg[<span class="number">30</span>];</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;n;i++) tmpIndeg[i]=indeg[i];</span><br><span class="line"></span><br><span class="line">    queue&lt;<span class="type">int</span>&gt; q;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;n;i++)&#123;</span><br><span class="line">        <span class="keyword">if</span>(tmpIndeg[i]==<span class="number">0</span>) q.<span class="built_in">push</span>(i);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="type">int</span> cnt=<span class="number">0</span>;</span><br><span class="line">    <span class="type">bool</span> sure=<span class="literal">true</span>;</span><br><span class="line">    string res=<span class="string">&quot;&quot;</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span>(!q.<span class="built_in">empty</span>())&#123;</span><br><span class="line">        <span class="keyword">if</span>(q.<span class="built_in">size</span>()&gt;<span class="number">1</span>) sure=<span class="literal">false</span>;</span><br><span class="line">        <span class="type">int</span> u=q.<span class="built_in">front</span>(); q.<span class="built_in">pop</span>();</span><br><span class="line">        res.<span class="built_in">push_back</span>(<span class="built_in">char</span>(<span class="string">&#x27;A&#x27;</span>+u));</span><br><span class="line">        cnt++;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> v:g[u])&#123;</span><br><span class="line">            tmpIndeg[v]--;</span><br><span class="line">            <span class="keyword">if</span>(tmpIndeg[v]==<span class="number">0</span>) q.<span class="built_in">push</span>(v);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    orderCount=cnt; orderStr=res;</span><br><span class="line">    <span class="keyword">if</span>(cnt&lt;n) <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">    <span class="keyword">if</span>(sure &amp;&amp; cnt==n) <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    ios::<span class="built_in">sync_with_stdio</span>(<span class="literal">false</span>); cin.<span class="built_in">tie</span>(<span class="number">0</span>);</span><br><span class="line">    cin&gt;&gt;n&gt;&gt;m;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;m;i++)&#123;</span><br><span class="line">        string s; cin&gt;&gt;s;</span><br><span class="line">        <span class="type">int</span> u=s[<span class="number">0</span>]-<span class="string">&#x27;A&#x27;</span>;</span><br><span class="line">        <span class="type">int</span> v=s[<span class="number">2</span>]-<span class="string">&#x27;A&#x27;</span>;</span><br><span class="line">        g[u].<span class="built_in">push_back</span>(v);</span><br><span class="line">        indeg[v]++;</span><br><span class="line"></span><br><span class="line">        <span class="type">int</span> cnt;</span><br><span class="line">        string order;</span><br><span class="line">        <span class="type">int</span> status=<span class="built_in">sort</span>(cnt,order);</span><br><span class="line">        <span class="keyword">if</span>(status==<span class="number">1</span>)&#123;</span><br><span class="line">            cout &lt;&lt; <span class="string">&quot;Sorted sequence determined after &quot;</span> &lt;&lt; i + <span class="number">1</span> &lt;&lt; <span class="string">&quot; relations: &quot;</span> &lt;&lt; order &lt;&lt; <span class="string">&quot;.&quot;</span> &lt;&lt; endl;</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span>(status==<span class="number">-1</span>)&#123;</span><br><span class="line">            cout &lt;&lt; <span class="string">&quot;Inconsistency found after &quot;</span> &lt;&lt; i + <span class="number">1</span> &lt;&lt; <span class="string">&quot; relations.&quot;</span> &lt;&lt; endl;</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    cout&lt;&lt;<span class="string">&quot;Sorted sequence cannot be determined.&quot;</span> &lt;&lt; endl;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>易错点</strong>：每次重跑拓扑时要用副本 <code>tmpIndeg</code>，不能直接改原入度数组，否则下一轮就崩了。</p>
+<h2 id="P1137-旅行计划"><a href="#P1137-旅行计划" class="headerlink" title="P1137 旅行计划"></a>P1137 旅行计划</h2><p><a target="_blank" rel="noopener" href="https://www.luogu.com.cn/problem/P1137">P1137 旅行计划 - 洛谷</a></p>
+<p>这道题参杂了一点点 dp，因为最大城市数取决于之前的情况，走过的岔路口肯定要判断一下怎么走最优。</p>
+<p>把入度为 0 的点（起点）<code>dp</code> 初始化成 1，然后在 Kahn 的松弛过程中转移：<code>dp[v] = max(dp[v], dp[u] + 1)</code>。因为队列弹出的顺序天然是拓扑序，转移到 <code>v</code> 时它的所有前驱都已经算完了，不会出现后效性。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="meta">#<span class="keyword">define</span> endl <span class="string">&#x27;\n&#x27;</span></span></span><br><span class="line"><span class="keyword">using</span> ll=<span class="type">long</span> <span class="type">long</span>;</span><br><span class="line"><span class="type">const</span> <span class="type">int</span> maxn=<span class="number">200005</span>;</span><br><span class="line"></span><br><span class="line">vector&lt;<span class="type">int</span>&gt; g[maxn];</span><br><span class="line"><span class="type">int</span> indeg[maxn];</span><br><span class="line"><span class="type">int</span> dp[maxn];</span><br><span class="line"><span class="type">int</span> n,m;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    ios::<span class="built_in">sync_with_stdio</span>(<span class="literal">false</span>); cin.<span class="built_in">tie</span>(<span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">    cin&gt;&gt;n&gt;&gt;m;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;m;i++)&#123;</span><br><span class="line">        <span class="type">int</span> x,y; cin&gt;&gt;x&gt;&gt;y;</span><br><span class="line">        g[x].<span class="built_in">push_back</span>(y);</span><br><span class="line">        indeg[y]++;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    queue&lt;<span class="type">int</span>&gt; q;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=n;i++)&#123;</span><br><span class="line">        <span class="keyword">if</span>(indeg[i]==<span class="number">0</span>)&#123;</span><br><span class="line">            q.<span class="built_in">push</span>(i);</span><br><span class="line">            dp[i]=<span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span>(!q.<span class="built_in">empty</span>())&#123;</span><br><span class="line">        <span class="type">int</span> u=q.<span class="built_in">front</span>();</span><br><span class="line">        q.<span class="built_in">pop</span>();</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> v:g[u])&#123;</span><br><span class="line">            dp[v]=<span class="built_in">max</span>(dp[v],dp[u]<span class="number">+1</span>);</span><br><span class="line">            indeg[v]--;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span>(indeg[v]==<span class="number">0</span>) q.<span class="built_in">push</span>(v);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=n;i++)&#123;</span><br><span class="line">        cout&lt;&lt;dp[i]&lt;&lt;endl;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="P4017-最大食物链计数"><a href="#P4017-最大食物链计数" class="headerlink" title="P4017 最大食物链计数"></a>P4017 最大食物链计数</h2><p><a target="_blank" rel="noopener" href="https://www.luogu.com.cn/problem/P4017">P4017 最大食物链计数 - 洛谷</a></p>
+<p>也就是求一共有几条生物链，最大的意思就是从生产者到最顶端的消费者，路径 dp 取模。</p>
+<p>和上一题是同一个骨架，区别在于转移从取 <code>max</code> 变成累加计数：</p>
+<ul>
+<li>起点（入度 0，即生产者）<code>dp[i] = 1</code>；</li>
+<li>转移 <code>dp[v] = (dp[v] + dp[u]) % mod</code>；</li>
+<li>答案不再是所有点求和，而是<strong>只累加出度为 0 的点</strong>（<code>g[i].empty()</code>，即食物链顶端）。</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="keyword">using</span> ll=<span class="type">long</span> <span class="type">long</span>;</span><br><span class="line"><span class="meta">#<span class="keyword">define</span> endl <span class="string">&#x27;\n&#x27;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">const</span> <span class="type">int</span> mod=<span class="number">80112002</span>;</span><br><span class="line"><span class="type">const</span> <span class="type">int</span> maxn=<span class="number">500005</span>;</span><br><span class="line"></span><br><span class="line">vector&lt;<span class="type">int</span>&gt; g[maxn];</span><br><span class="line"><span class="type">int</span> indeg[maxn];</span><br><span class="line">ll dp[maxn];</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    ios::<span class="built_in">sync_with_stdio</span>(<span class="literal">false</span>); cin.<span class="built_in">tie</span>(<span class="number">0</span>);</span><br><span class="line">    <span class="type">int</span> n,m; cin&gt;&gt;n&gt;&gt;m;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;m;i++)&#123;</span><br><span class="line">        <span class="type">int</span> a,b; cin&gt;&gt;a&gt;&gt;b;</span><br><span class="line">        g[a].<span class="built_in">push_back</span>(b);</span><br><span class="line">        indeg[b]++;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    queue&lt;<span class="type">int</span>&gt; q;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=n;i++)&#123;</span><br><span class="line">        <span class="keyword">if</span>(indeg[i]==<span class="number">0</span>)&#123;</span><br><span class="line">            q.<span class="built_in">push</span>(i);</span><br><span class="line">            dp[i]=<span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span>(!q.<span class="built_in">empty</span>())&#123;</span><br><span class="line">        <span class="type">int</span> u=q.<span class="built_in">front</span>(); q.<span class="built_in">pop</span>();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> v:g[u])&#123;</span><br><span class="line">            dp[v]=(dp[v]+dp[u])%mod; <span class="comment">//算路径</span></span><br><span class="line">            indeg[v]--;</span><br><span class="line">            <span class="keyword">if</span>(indeg[v]==<span class="number">0</span>) q.<span class="built_in">push</span>(v);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    ll ans=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=n;i++)&#123;</span><br><span class="line">        <span class="keyword">if</span>(g[i].<span class="built_in">empty</span>())&#123;  <span class="comment">//g[i]出度为零，证明是食物链顶端</span></span><br><span class="line">            ans=(ans+dp[i])%mod;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    cout&lt;&lt;ans&lt;&lt;endl;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="刷题路线（洛谷-→-CF，难度递增）"><a href="#刷题路线（洛谷-→-CF，难度递增）" class="headerlink" title="刷题路线（洛谷 → CF，难度递增）"></a>刷题路线（洛谷 → CF，难度递增）</h2><h3 id="洛谷"><a href="#洛谷" class="headerlink" title="洛谷"></a>洛谷</h3><ol>
+<li><strong>P1137 旅行计划</strong> —— Kahn 模板 + 每点最长路，最干净的骨架题。<br><a target="_blank" rel="noopener" href="https://www.luogu.com.cn/problem/P1137">P1137 旅行计划</a></li>
+<li><strong>P4017 最大食物链计数</strong> —— 拓扑 + 路径计数 DP（取模），体会「拓扑顺序保证无后效」。<br><a target="_blank" rel="noopener" href="https://www.luogu.com.cn/problem/P4017">P4017 最大食物链计数</a></li>
+<li><strong>P1113 杂务</strong> —— 拓扑 + DP，<code>dp[v] = max(dp[前驱]) + w</code>，练 DAG 最长路手感。<br><a target="_blank" rel="noopener" href="https://www.luogu.com.cn/problem/P1113">P1113 杂务</a></li>
+<li><strong>P1347 排序</strong> —— 经典入门，每加一条约束重跑一次拓扑，练「环 &#x2F; 唯一拓扑序 &#x2F; 信息不足」三分支判断。<br><a target="_blank" rel="noopener" href="https://www.luogu.com.cn/problem/P1347">P1347 排序</a></li>
+<li><strong>P1038 神经网络</strong> —— 拓扑 + 模拟（较老）。<br><a target="_blank" rel="noopener" href="https://www.luogu.com.cn/problem/P1038">P1038 神经网络</a></li>
+<li><strong>P1983 车站分级</strong>（提高+&#x2F;省选−，<strong>建模收获最大</strong>）—— 建边：把「未停靠站 → 停靠站」抽成级别关系。<br>坑：<strong>重边要 vis 去重</strong>（不然 MLE）、建边可能 O(n²) 需考虑虚点优化。<br><a target="_blank" rel="noopener" href="https://www.luogu.com.cn/problem/P1983">P1983 车站分级</a></li>
+</ol>
+<h3 id="CF"><a href="#CF" class="headerlink" title="CF"></a>CF</h3><ol start="7">
+<li><strong>CF 510C — Fox And Names</strong>（≈1500）—— 字典序排序的字符串反推<strong>字符先后关系图</strong>再判环输出，「从排序关系建偏序图」的鼻祖，CF 拓扑入门第一题。<br><a target="_blank" rel="noopener" href="https://codeforces.com/problemset/problem/510/C">CF 510C</a></li>
+<li><strong>CF 1385E — Directing Edges</strong>（≈1700）—— 给无向边定向成 DAG。要点：<strong>任何一版合法拓扑序都能用来定向</strong>（小的往大的连），理解「拓扑序 &#x3D; 偏序线性化」。<br><a target="_blank" rel="noopener" href="https://codeforces.com/problemset/problem/1385/E">CF 1385E</a></li>
+<li><strong>CF 825E — Minimal Labels</strong>（≈1700–1800）—— 字典序最小重标号，<strong>反直觉</strong>：贪心方向通常要反过来（倒着放）。先交一版「正向小根堆」的错误代码体会坑。<code>priority_queue</code> + 拓扑，非常推荐做。<br><a target="_blank" rel="noopener" href="https://codeforces.com/problemset/problem/825/E">CF 825E</a></li>
+<li><strong>CF 1572A — Book</strong>（≈1900）—— 按「读书轮数」分批读章节，前置必须<strong>上一轮</strong>读完，按拓扑的「层」处理。卡补题难度带。<br><a target="_blank" rel="noopener" href="https://codeforces.com/problemset/problem/1572/A">CF 1572A Book</a></li>
+</ol>
+<h2 id="建议顺序"><a href="#建议顺序" class="headerlink" title="建议顺序"></a>建议顺序</h2><p><strong>洛谷 P1137 → P4017 → P1113 → P1347 → CF510C → P1983 → CF1385E → CF825E → CF1572A</strong></p>
+<ul>
+<li>入门打底：P1347 &#x2F; P1113 &#x2F; P4017</li>
+<li>建图思维进阶：P1983（车站分级）最值得</li>
+<li>CF 里 <strong>CF825E</strong> 正好对应 <code>priority_queue + indegree</code> 的反直觉点，做完可以带自己手推一遍</li>
+</ul>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://768910-bit.github.io">Bamboo_ming</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://768910-bit.github.io/2026/09/09/%E6%8B%93%E6%89%91%E6%8E%92%E5%BA%8F/">https://768910-bit.github.io/2026/09/09/%E6%8B%93%E6%89%91%E6%8E%92%E5%BA%8F/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://768910-bit.github.io" target="_blank">竹见</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E6%B4%9B%E8%B0%B7/">洛谷</a><a class="post-meta__tags" href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/">动态规划</a><a class="post-meta__tags" href="/tags/%E5%9B%BE%E8%AE%BA/">图论</a><a class="post-meta__tags" href="/tags/%E6%8B%93%E6%89%91%E6%8E%92%E5%BA%8F/">拓扑排序</a><a class="post-meta__tags" href="/tags/Codeforces/">Codeforces</a></div><div class="post-share"><div class="social-share" data-image="/img/site/avatar.jpg" data-sites="facebook,x,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/2026/09/11/%E5%B9%B6%E6%9F%A5%E9%9B%86/" title="并查集"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">并查集</div></div><div class="info-2"><div class="info-item-1">并查集P1955 程序自动分析（并查集 + 离散化）P1955 [NOI2015] 程序自动分析 - 洛谷 并查集 + 离散化，和算法竞赛那本书的例题一模一样。 思路：先建立并查集，把所有 e == 1（相等）的约束合并起来。因为还需要判断不相等的情况，所以得跑两轮——第二轮遇到 e == 0 且两个数已经在同一集合里，就说明前面的约束和它矛盾，直接 break。 变量范围到 1e9 而约束只有 1e5 条，所以要先离散化，把出现过的数映射到 1..m 的连续编号上。 12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626364656667686970717273747576777879808182838485#include&lt;bits/stdc++.h&gt;using namespace std;using ll=long long;#define endl &#x27;\n&#x27;cons...</div></div></div></a><a class="pagination-related" href="/2026/09/09/%E6%89%93%E8%A1%A8/" title="打表"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">打表</div></div><div class="info-2"><div class="info-item-1">打表（方法论，不是独立算法） 打表几乎不会单独出成「打表专题」，它是个解题工具，嵌在博弈论、数论、递推找规律里。不要为打表单独开一堆题单去刷，而是养成习惯：遇到卡住的题，先写暴力打表观察。  先分清「打表」到底指哪种   类型 是什么 要不要练    打表找规律（核心） 本地暴力跑小数据 → 打印序列&#x2F;矩阵 → 观察周期、二进制、递推 → 猜公式 → 证明&#x2F;对拍 真正要练的   分段打表 范围太大（如 1e18 + 取模）跑不完存不下 → 暴力每 K 个取代表点嵌代码，再快速跳 数论技巧，进阶   真·离线打表 答案表直接嵌进代码硬输出 一般只在答案种类极少时 OJ 放行，不是出题人想考的   伪·打表（常混淆） 前缀和、线性筛这类「预处理数组」 这是标准空间换时间算法，不叫打表，别归错类   找规律的标准流程 暴力先保证正确 —— 暴力错了后面全白搭。 表要打得够大 —— 很多规律在小表下成立、扩大就崩（CF1906G 就是反例）。猜完必须对拍更大范围验证，不能打出就收。 观察维度别只看数值：最常藏规律的是 二进制：末尾连续 0 &#x2F; lowbit ...</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/2026/09/11/%E5%B9%B6%E6%9F%A5%E9%9B%86/" title="并查集"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-09-11</div><div class="info-item-2">并查集</div></div><div class="info-2"><div class="info-item-1">并查集P1955 程序自动分析（并查集 + 离散化）P1955 [NOI2015] 程序自动分析 - 洛谷 并查集 + 离散化，和算法竞赛那本书的例题一模一样。 思路：先建立并查集，把所有 e == 1（相等）的约束合并起来。因为还需要判断不相等的情况，所以得跑两轮——第二轮遇到 e == 0 且两个数已经在同一集合里，就说明前面的约束和它矛盾，直接 break。 变量范围到 1e9 而约束只有 1e5 条，所以要先离散化，把出现过的数映射到 1..m 的连续编号上。 12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626364656667686970717273747576777879808182838485#include&lt;bits/stdc++.h&gt;using namespace std;using ll=long long;#define endl &#x27;\n&#x27;cons...</div></div></div></a><a class="pagination-related" href="/2026/08/30/%E4%BA%8C%E5%88%86%E7%AD%94%E6%A1%88/" title="二分答案"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-08-30</div><div class="info-item-2">二分答案</div></div><div class="info-2"><div class="info-item-1">二分答案这两道题可以带学带练，思路几乎是一样的。学完二分你会发现，精髓其实在于思考如何借助二分写函数体 check：我们有了查找的思路，难点在于把求最优解的问题，转化为给定一个值 Mid，判定是否存在一个可行方案达到 Mid。 P1873 砍树P1873 [COCI 2011&#x2F;2012 #5] EKO &#x2F; 砍树 - 洛谷 我们要找一个合适的高度去切，刚好用二分来确定最后的 H。 易错点：  右边界 r 可以直接赋成 400000，也可以赋成数组里的最大值。 check 里算到 ans &gt;= m 就提前返回，不用等全部算完，超过即符合题意。  123456789101112131415161718192021222324252627282930313233#include&lt;bits/stdc++.h&gt;using namespace std;using ll = long long;ll n, m;vector&lt;ll&gt; a;bool check(int h) &#123;    ll ans = 0;    for (int i = ...</div></div></div></a><a class="pagination-related" href="/2025/12/21/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" title="动态规划"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-12-21</div><div class="info-item-2">动态规划</div></div><div class="info-2"><div class="info-item-1">动态规划（Dynamic Programming）什么是动态规划？ 动态规划是一种通过把原问题分解为相对简单的子问题的方式，利用子问题的最优解来求解复杂问题最优化解的方法。 核心思想：把大问题分解成小问题（分治思想） 保存子问题的解，避免重复计算（记忆化） 通过子问题的解推导出原问题的解 特征  最优子结构  一个问题的最优解包含其子问题的最优解，可以通过组合子问题的最优解得到原问题的最优解 例子：最短路径问题从A到C的最短路径 &#x3D; 从A到B的最短路径 + 从B到C的最短路径  重叠子问题  在求解过程中，相同的子问题会被多次计算，动态规划通过存储计算结果避免重复计算  无后效性  未来的决策只取决于当前状态，与如何到达当前状态无关，”过去不影响未来” 啥时候能用  计数问题：有多少种方式&#x2F;方法…  最值问题：最大值&#x2F;最小值&#x2F;最长&#x2F;最短…  存在性问题：是否可能&#x2F;能否实现…  问题可以被分解，且子问题重叠   1.洛谷P1433吃奶酪题目：房间里放着 n 块奶酪。一只小老鼠要把它们都吃掉，问至少要跑多少距离？老鼠一开始在...</div></div></div></a><a class="pagination-related" href="/2026/08/28/%E8%AE%B0%E5%BF%86%E5%8C%96%E6%90%9C%E7%B4%A2/" title="记忆化搜索"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-08-28</div><div class="info-item-2">记忆化搜索</div></div><div class="info-2"><div class="info-item-1">记忆化搜索记忆化递归 &#x3D; 用搜索的方式写 DP。递归天然表达「状态转移」，再加上一个 dp 数组记录算过的答案，避免重复计算，就是记忆化。 它比递推 DP 好在不用纠结拓扑序，状态怎么想得顺就怎么写；坏处是有递归栈开销，某些题目会被卡。 P1044 栈P1044 [NOIP 2003 普及组] 栈 - 洛谷 这道题还有一个变种，是我一开始学栈的时候就出现的，同源但不同做法。看到 dfs 的时候我惊讶于这道题还能用这么简洁的方式，着实震惊。 状态设计：x 是已经入过栈的数字个数，y 是当前栈里有多少个。 123456789101112int n;ll dp[20][20];ll dfs(int x, int y) &#123;    if (x == n &amp;&amp; y == 0) return 1;      // 所有数字已输出，找到一种合法方案    if (dp[x][y] != -1) return dp[x][y];    ll ans = 0;    if (x &lt; n) ans += dfs(x + 1, y + 1); // 还有数字没进...</div></div></div></a><a class="pagination-related" href="/2026/05/21/%E5%9B%BE%E8%AE%BA/" title="图论"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-05-21</div><div class="info-item-2">图论</div></div><div class="info-2"><div class="info-item-1">这学期离散数学属实上的比线代舒爽太多因为很多知识点可以切实应用到代码实现，几乎是立即反馈。本篇可能比较杂乱，会慢慢整理，先挖好坑再说（） </div></div></div></a></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/site/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">Bamboo_ming</div><div class="author-info-description">每个人都应该找到自己所向往并坚持的事情</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">22</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">30</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/768910-bit"><i class="fab fa-github"></i><span>Fork Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">乱七八糟代码与感悟闪现地</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%8B%93%E6%89%91%E6%8E%92%E5%BA%8F"><span class="toc-number">1.</span> <span class="toc-text">拓扑排序</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BA%95%E5%B1%82%E8%AE%A4%E8%AF%86%E4%B8%8E%E6%A8%A1%E6%9D%BF%E8%A6%81%E7%82%B9"><span class="toc-number">1.1.</span> <span class="toc-text">底层认识与模板要点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E5%B1%82%E5%AD%A6%E4%B9%A0%E8%B7%AF%E5%BE%84"><span class="toc-number">1.2.</span> <span class="toc-text">三层学习路径</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#P1347-%E6%8E%92%E5%BA%8F"><span class="toc-number">1.3.</span> <span class="toc-text">P1347 排序</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#P1137-%E6%97%85%E8%A1%8C%E8%AE%A1%E5%88%92"><span class="toc-number">1.4.</span> <span class="toc-text">P1137 旅行计划</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#P4017-%E6%9C%80%E5%A4%A7%E9%A3%9F%E7%89%A9%E9%93%BE%E8%AE%A1%E6%95%B0"><span class="toc-number">1.5.</span> <span class="toc-text">P4017 最大食物链计数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%B7%E9%A2%98%E8%B7%AF%E7%BA%BF%EF%BC%88%E6%B4%9B%E8%B0%B7-%E2%86%92-CF%EF%BC%8C%E9%9A%BE%E5%BA%A6%E9%80%92%E5%A2%9E%EF%BC%89"><span class="toc-number">1.6.</span> <span class="toc-text">刷题路线（洛谷 → CF，难度递增）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B4%9B%E8%B0%B7"><span class="toc-number">1.6.1.</span> <span class="toc-text">洛谷</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CF"><span class="toc-number">1.6.2.</span> <span class="toc-text">CF</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BB%BA%E8%AE%AE%E9%A1%BA%E5%BA%8F"><span class="toc-number">1.7.</span> <span class="toc-text">建议顺序</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/09/11/%E5%B9%B6%E6%9F%A5%E9%9B%86/" title="并查集">并查集</a><time datetime="2026-09-11T10:09:00.000Z" title="发表于 2026-09-11 18:09:00">2026-09-11</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/09/09/%E6%8B%93%E6%89%91%E6%8E%92%E5%BA%8F/" title="拓扑排序">拓扑排序</a><time datetime="2026-09-09T14:17:00.000Z" title="发表于 2026-09-09 22:17:00">2026-09-09</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/09/09/%E6%89%93%E8%A1%A8/" title="打表">打表</a><time datetime="2026-09-09T07:51:00.000Z" title="发表于 2026-09-09 15:51:00">2026-09-09</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/08/30/%E4%BA%8C%E5%88%86%E7%AD%94%E6%A1%88/" title="二分答案">二分答案</a><time datetime="2026-08-30T02:00:00.000Z" title="发表于 2026-08-30 10:00:00">2026-08-30</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/08/28/%E8%AE%B0%E5%BF%86%E5%8C%96%E6%90%9C%E7%B4%A2/" title="记忆化搜索">记忆化搜索</a><time datetime="2026-08-28T06:00:00.000Z" title="发表于 2026-08-28 14:00:00">2026-08-28</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url(https://s41.ax1x.com/2025/12/15/pZQn4eO.jpg);"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2025 - 2026 By Bamboo_ming</span><span class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 8.1.1</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.5.3</a></span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=5.5.3"></script><script src="/js/main.js?v=5.5.3"></script><div class="js-pjax"><script>(() => {
+  const loadMathjax = () => {
+    if (!window.MathJax) {
+      window.MathJax = {
+        loader: {
+          load: [
+            // Four font extension packages (optional)
+            //- '[tex]/bbm',
+            //- '[tex]/bboldx',
+            //- '[tex]/dsfont',
+            '[tex]/mhchem'
+          ],
+          paths: {
+            'mathjax-newcm': '[mathjax]/../@mathjax/mathjax-newcm-font',
+
+            //- // Four font extension packages (optional)
+            //- 'mathjax-bbm-extension': '[mathjax]/../@mathjax/mathjax-bbm-font-extension',
+            //- 'mathjax-bboldx-extension': '[mathjax]/../@mathjax/mathjax-bboldx-font-extension',
+            //- 'mathjax-dsfont-extension': '[mathjax]/../@mathjax/mathjax-dsfont-font-extension',
+            'mathjax-mhchem-extension': '[mathjax]/../@mathjax/mathjax-mhchem-font-extension'
+          }
+        },
+        output: {
+          font: 'mathjax-newcm',
+        },
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']],
+          tags: 'none',
+          packages: {
+            '[+]': [
+              'mhchem'
+            ]
+          }
+        },
+        chtml: {
+          scale: 1.1
+        },
+        options: {
+          enableMenu: true,
+          menuOptions: {
+            settings: {
+              enrich: false  // Turn off Braille and voice narration text automatic generation
+            }
+          },
+          renderActions: {
+            findScript: [10, doc => {
+              for (const node of document.querySelectorAll('script[type^="math/tex"]')) {
+                const display = !!node.type.match(/; *mode=display/)
+                const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display)
+                const text = document.createTextNode('')
+                node.parentNode.replaceChild(text, node)
+                math.start = {node: text, delim: '', n: 0}
+                math.end = {node: text, delim: '', n: 0}
+                doc.math.push(math)
+              }
+            }, '']
+          }
+        }
+      }
+
+      const script = document.createElement('script')
+      script.src = 'https://cdn.jsdelivr.net/npm/mathjax@4.0.0/tex-mml-chtml.min.js'
+      script.id = 'MathJax-script'
+      script.async = true
+      document.head.appendChild(script)
+    } else {
+      MathJax.startup.document.state(0)
+      MathJax.texReset()
+      MathJax.typesetPromise()
+    }
+  }
+
+  btf.addGlobalFn('encrypt', loadMathjax, 'mathjax')
+  window.pjax ? loadMathjax() : window.addEventListener('load', loadMathjax)
+})()</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><i class="fas fa-spinner fa-pulse" id="loading-status" hidden="hidden"></i><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="local-search-input"><input placeholder="要搜索啥..." type="text"/></div><hr/><div id="local-search-results"></div><div class="ais-Pagination" id="local-search-pagination" style="display:none;"><ul class="ais-Pagination-list"></ul></div><div id="local-search-stats"></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=5.5.3"></script></div></div></body></html>
